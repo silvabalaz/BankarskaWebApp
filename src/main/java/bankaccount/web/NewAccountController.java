@@ -1,6 +1,4 @@
 package bankaccount.web;
-
-package bankaccount.web;
 import java.math.BigDecimal;
 
 import org.hibernate.mapping.Map;
