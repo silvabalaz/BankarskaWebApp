@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Izdavanje transakcije</title>
+</head>
+<body>
+
+<h1>Izdavanje transakcije</h1>
+
+<p>Ulogirani ste.Izdavanje transakcije slijedi.</p>
+
+
+
+<h1>Otvaranje nove transakcije</h1>
+<p th:if="${isWrongData == true}">Krivi broj računa ili prevelik iznos transakcije!</p>
+
+
+<form th:action="@{/transactioncreate}" th:object="${transactionInfo}" method="post">
+    <table>
+	     <tr> 
+            <td>Broj računa izvršitelja :</td>
+            <td><input type="number" th:field="*{sourceIban}"/></td>
+        </tr>
+        <tr> 
+            <td>Broj  računa primatelja:</td>
+            <td><input type="number" th:field="*{destinationIban}"/></td>
+        </tr>
+        <tr>
+            <td>Iznos transakcije:</td>
+            <td><input type="number" th:field="*{amount}"/></td>
+        </tr>
+        <tr>
+            <td>
+           
+                <button type="submit">Izvrši transakciju</button>
+            </td>
+        </tr> 
+    </table>
+</form>
+
+
+
+</body>
+</html>
