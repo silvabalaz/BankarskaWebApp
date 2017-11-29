@@ -19,16 +19,16 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotEmpty(message = "Broj računa primatelja je obavezno")
+    @NotNull(message = "Broj računa primatelja je obavezno")
     private int sourceIban;
 
-    @NotEmpty(message = "Broj računa izvršitelja je obavezno")
+    @NotNull(message = "Broj računa izvršitelja je obavezno")
     private int destinationIban;
     
     @NotEmpty(message = "Status računa je obavezan")
     private String status; 
     
-    @NotEmpty(message = "Iznos transakcije je obavezan")
+    @NotNull(message = "Iznos transakcije je obavezan")
     private double balance;
    
     private String time;

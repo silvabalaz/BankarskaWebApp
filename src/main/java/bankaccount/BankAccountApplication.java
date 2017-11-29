@@ -27,11 +27,12 @@ public class BankAccountApplication {
 	public CommandLineRunner demo(AccountRepository repository) {
 		return (args) -> { 
 			// save a couple of customers
-				
+			//Account prvi = new Account();	
+			/*
 			Account a1 = new Account("Jack", "Bauer", 12345);
 			Account a3 = new Account("Jacsrfsk", "Bauggger", 127673);
 			Account a5 = new Account("Jacjgjgk", "Baugggjer", 12453);
-		
+		    //repository.save(prvi);
 			repository.save(a1);
 			repository.save(a3);
 			repository.save(a5);
@@ -40,7 +41,7 @@ public class BankAccountApplication {
 			for (Account account : repository.findAll()) {
 				log.info("svi racuni _______________  " + account.toString());
 			} 
-		
+		*/
 	
 		};
 	}

@@ -3,14 +3,14 @@ package bankaccount.repository;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
-
-import bankaccount.model.Account;
+import org.springframework.stereotype.Repository;
 import bankaccount.model.Transaction;
 
+@Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 
-    Transaction save(Transaction newTransaction);
+	Transaction save(Transaction newTransaction);
     List<Transaction> findAll();
-   // List<Transaction> findAllByIban(int iban);
-    //List<Transaction> findAllByStatus(int iban, String status);
+    //List<Transaction> findAllBysourceIban(int iban);
+    List<Transaction> findAllByStatus(int iban, String status);
 }

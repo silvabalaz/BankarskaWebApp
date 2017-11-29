@@ -1,6 +1,5 @@
 package bankaccount.service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,11 +8,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import bankaccount.model.Account;
+import org.springframework.stereotype.Service;
 import bankaccount.model.Transaction;
 import bankaccount.repository.TransactionRepository;
 
+@Service
 public class TransactionService {
 
     private static Logger logger = LoggerFactory.getLogger(TransactionService.class);
@@ -21,22 +20,19 @@ public class TransactionService {
     @Autowired
     private TransactionRepository repository;
    
-    public boolean save(Transaction newTrans) {
+    public boolean saveTransaction(Transaction newTrans) {
 
         boolean saved = false;
         
         Transaction newTransaction = repository.save(newTrans);
-
-        logger.info("Saved prije: " + saved + "User:" + newTransaction.getSourceIban() + " " + newTransaction.getDestinationIban() );
         
         if(newTransaction != null) {
             return saved = true;
 
         }
-        logger.info("PRIJE RETURNA U SAVEU" + newTransaction);
-        
+         
         return saved;
-    		
+    		 
     }
     
     public List<Transaction> findAll(){
@@ -45,7 +41,7 @@ public class TransactionService {
     	 	
     }
     /*
-    public List<Transaction> findAllByIban(int iban){
+    public List<Transaction> findAllBysourceIban(int iban){
     	
     	 List<Transaction> all = repository.findAll();
  
@@ -56,15 +52,22 @@ public class TransactionService {
     			 allMine.add(t);
     	 }
     	 return allMine;
-    }
+    }*/
     
-    List<Transaction> findAllByStatus(int iban, String status){
+    public List<Transaction> findAllByStatus(int iban, String status){
     	//sortirati naloge po vremenu
     	//pronać sve moje naloge
     	//filter po zadanom statusu
-    	List<Transaction> myTransactions = repository.findAllByIban(iban);
+      	 List<Transaction> all = repository.findAll();
+      	 logger.info("all: " + all);
+    	 List<Transaction> allMine = new ArrayList();
     	
-    	Collections.sort(myTransactions, new Comparator<Transaction>() {
+    	 for(Transaction t: all) {
+    		 if(t.getSourceIban() == iban)
+    			 allMine.add(t);
+    	 }
+    	 logger.info("allMine" + allMine);
+    	Collections.sort(allMine, new Comparator<Transaction>() {
     		  public int compare(Transaction o1, Transaction o2) {
     		      if (o1.getCurrentTime() == null || o2.getCurrentTime() == null)
     		        return 0;
@@ -73,14 +76,14 @@ public class TransactionService {
     		});
     	
     	List<Transaction> statusTransactions = new ArrayList<Transaction>(); 
-    	for(Transaction t : myTransactions ) {
+    	for(Transaction t : allMine ) {
     		if(t.getStatus().equals(status))
     			statusTransactions.add(t);
     		
     	}
-    	
+    	logger.info("statusTransactions" + statusTransactions);
     	return statusTransactions;
     	
     }
-*/
+
 }

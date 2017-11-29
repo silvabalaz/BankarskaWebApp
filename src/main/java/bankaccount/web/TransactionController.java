@@ -1,5 +1,8 @@
 package bankaccount.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import bankaccount.model.Account;
 import bankaccount.model.Transaction;
+import bankaccount.repository.TransactionRepository;
 import bankaccount.service.AccountService;
 import bankaccount.service.PasswordService;
 import bankaccount.service.TransactionService;
@@ -26,7 +31,10 @@ public class TransactionController {
     
     @Autowired
     private AccountService service; 
+    @Autowired
     private TransactionService serviceT; 
+    @Autowired
+    private TransactionRepository repository;
 	
 	 @RequestMapping(method = RequestMethod.GET)
 	    public String Form(@ModelAttribute("accountInfo")AccountDto accountInfo, Model model) {
@@ -47,29 +55,31 @@ public class TransactionController {
     public String transaction(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model, RedirectAttributes redirectAttributes) {
 
     	Transaction newTransaction = new Transaction(transactionInfo.getSourceIban(),transactionInfo.getDestinationIban(),"zadan",transactionInfo.getAmount());
-    	logger.info("nova transakcija, podaci:" + newTransaction   );
-    	logger.info("sejvanje u repozitorij transakcije" + serviceT.save(newTransaction));
-        /*if(serviceT.save(newTransaction)) {
+    	
+        if(serviceT.saveTransaction(newTransaction) != false){
 
            redirectAttributes.addFlashAttribute("transactionInfo", transactionInfo);
 			
            return "redirect:/transactioncreate/list";
-        }*/
+        }
         
-        model.addAttribute("isWrongData", true);
-        
-        //return transactionForm(model);
-        return "error";
+       return "error";
     } 
     	
-
-    
 	 @RequestMapping(value = "list", method = RequestMethod.GET)
 	    public String listTransactions(@ModelAttribute("transactionInfo")TransactionDto transactionInfo ,Model model) {
 		     	
 	    	int currentIban = transactionInfo.getSourceIban();
+	    	String status = "zadan";
 	    		
 	        model.addAttribute("transactionInfo", currentIban);
+	        model.addAttribute("status", status);
+	        
+	        //List<Transaction> transactionsMyIban = serviceT.findAllByIban(currentIban);
+	        List<Transaction> transactionsMyIbanStatus = new ArrayList();
+	        transactionsMyIbanStatus = serviceT.findAllByStatus(currentIban,status);
+	        logger.info("transactionsMyIbanStatus", transactionsMyIbanStatus);
+	        logger.info("serviceT.findAllByStatus(currentIban,status)", serviceT.findAllByStatus(currentIban,status));
 	        
 	        return TRANS_LIST;
 	    }
