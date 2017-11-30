@@ -74,7 +74,7 @@ public class TransactionService {
     		      return o1.getCurrentTime().compareTo(o2.getCurrentTime());
     		  }
     		});
-    	
+    	logger.info("allMine, usporedjeno po vremenu" + allMine);;
     	List<Transaction> statusTransactions = new ArrayList<Transaction>(); 
     	for(Transaction t : allMine ) {
     		if(t.getStatus().equals(status))

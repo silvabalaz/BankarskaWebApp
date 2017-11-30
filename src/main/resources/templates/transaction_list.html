@@ -11,17 +11,17 @@
 
 
     <table>
-        <tr>
+        <tr >
             <td>Vaš broj računa:</td>
-            <td th:text="${transactionInfo}">H1Title</td>
+            <td th:text="${transactionInfo}"></td>
+            <td>Vaše transakcije:</td>
         </tr>
-        <tr>
-            <td>Račun na koji je uplaćena transakcija:</td>
-           
-        </tr>
-        <tr>
-            <td>Iznos:</td>
-           
+            <tr th:each="trans,iterationStatus: ${transactionsStatus}">
+        	<td th:text="${iterationStatus.count}">1</td>
+            <td>Broj računa uplate:</td>
+            <td th:text="${trans.destinationIban}"></td>
+            <td>Iznos transakcije:</td>
+            <td th:text="${trans.balance}"></td>
         </tr>
     </table>
 

@@ -71,15 +71,24 @@ public class TransactionController {
 		     	
 	    	int currentIban = transactionInfo.getSourceIban();
 	    	String status = "zadan";
+	    	logger.info("currentIban and status: " + currentIban + "  " + status);
 	    		
 	        model.addAttribute("transactionInfo", currentIban);
 	        model.addAttribute("status", status);
 	        
 	        //List<Transaction> transactionsMyIban = serviceT.findAllByIban(currentIban);
-	        List<Transaction> transactionsMyIbanStatus = new ArrayList();
+	        List<Transaction> transactionsMyIbanStatus = new ArrayList<Transaction>(); 
 	        transactionsMyIbanStatus = serviceT.findAllByStatus(currentIban,status);
+	        model.addAttribute("transactionsStatus", transactionsMyIbanStatus);
 	        logger.info("transactionsMyIbanStatus", transactionsMyIbanStatus);
-	        logger.info("serviceT.findAllByStatus(currentIban,status)", serviceT.findAllByStatus(currentIban,status));
+	        logger.info("serviceT.findAllByStatus(currentIban,status)", transactionsMyIbanStatus);
+	        for(Transaction t: transactionsMyIbanStatus) {
+	        	int iban = t.getSourceIban();
+	        	int dest = t.getDestinationIban();
+	        	double value = t.getBalance();
+	        	logger.info("iban,dest,value" + iban + " " + dest + " " + value);
+	        	
+	        }
 	        
 	        return TRANS_LIST;
 	    }
