@@ -150,7 +150,7 @@ Dodala sam sve dependencies koji su bili potrebni redom kako sam radila: spring-
 		<dependency>
            		<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-        		</dependency>
+		</dependency>
        		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
