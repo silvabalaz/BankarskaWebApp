@@ -143,7 +143,22 @@ U templaetu *transaction_list* uz pomoć javascript funkcije i html elemenata ta
 		</table>
 
 
+**pom.xml**
+Odabrala sam koristiti Maven za build system.
+Dodala sam sve dependencies koji su bili potrebni redom kako sam radila: spring-boot-starter-data-jpa,hibernate-validator,spring-webmvc,spring-boot-starter-thymeleaf itd. 
 
-
-
+		<dependency>
+           		<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+        		</dependency>
+       		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.7</version>
+		</dependency>
 
