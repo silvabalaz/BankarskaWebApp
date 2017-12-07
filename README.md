@@ -77,5 +77,73 @@ Podatci koji stižu objektom redirectAttributes na ovu rutu su podatci o logiran
 Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbije,izvrsen), balance, time, verified.
 *sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (account id-jem).
 
+Metoda *transaction* stvara novu transakciju sa statusom *zadan* i sprema ju u bazu u tablicu *Transaction*, ako je ispunjen uvjet da je iznos transakcije manji od kolicine novca na trenutnom racunu ispitanog u if uvjetu:
+if (service.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
+    		return "error";
+
+Informacije o transakciji iz forme su omogućile putem servisa dohvaćanje ibana trenutnog klijenta i iznosa novaca transakcije.
+Servis *TransactionServis* omogućuje spremanje transakcije u tablicu, a zatim putem objekta redirectAttribute informacje o transakciji prosljeđujemo ruti *list*.
+
+Metoda *listTransactions* dohvaća sve transakcije trenuntog korisnika, posprema ih u tri liste po statusima: *zadan,odbijen i izvsen*. Ti podaci su dostupni u viewu *transaction_list*. 
+
+    	
+	 @RequestMapping(value = "list", method = RequestMethod.GET)
+	    public String listTransactions(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model) {
+		     	
+	    	long currentIban = transactionInfo.getSourceIban();
+	    	
+	    	String zadan = "zadan";
+	    	String izvrsen = "izvrsen";
+	    	String odbijen = "odbijen";
+	    	
+	        model.addAttribute("transactionInfo", currentIban);
+	        model.addAttribute("zadan", zadan);
+	        model.addAttribute("izvrsen", izvrsen);
+	        model.addAttribute("odbijen", odbijen);
+	        
+	        List<Transaction> transactionsMyIbanZadan = new ArrayList<Transaction>();
+	        List<Transaction> transactionsMyIbanIzvrsen = new ArrayList<Transaction>(); 
+	        List<Transaction> transactionsMyIbanOdbijen = new ArrayList<Transaction>(); 
+	        
+	        transactionsMyIbanZadan = serviceT.findAllByStatus(currentIban,zadan);
+	        transactionsMyIbanIzvrsen = serviceT.findAllByStatus(currentIban,izvrsen);
+	        transactionsMyIbanOdbijen = serviceT.findAllByStatus(currentIban,odbijen);
+	        /*Drop-Down list*/
+	        model.addAttribute("transactionsZadan",  transactionsMyIbanZadan);
+	        model.addAttribute("transactionsIzvrsen",transactionsMyIbanIzvrsen);
+	        model.addAttribute("transactionsOdbijen", transactionsMyIbanOdbijen);
+	 
+	        
+	        return TRANS_LIST;
+	    }
+	 
+
+
+
+U templaetu *transaction_list* uz pomoć javascript funkcije i html elemenata tablice i oznake *class* koja moze biti *zadan,izvrsen i odbijen*, moguće je transakcije filtrirati sa *drop-down *izbornikom *select-option*.
+
+		<p>Filtriraj po statusu transakcije:</p>		
+		<select id="trans">
+		  <option value="">Odaberi status</option>
+		  <option value="zadan">ZADAN</option>
+		  <option value="odbijen">ODBIJEN</option>
+		  <option value="izvrsen">IZVRŠEN</option>
+		  </select>
+		<table class ="zadan" border="1">
+		     <tr id="header">
+				<td>Broj računa uplate:</td> 
+				<td>Iznos transakcije:</td>
+				<td>Status transakcije:</td>   
+		    </tr>
+		    <tr th:each="t : ${transactionsZadan}">
+			 <td th:text="${t.destinationIban}"></td>
+			 <td th:text="${t.balance}"></td>
+			 <td th:text="${t.status}"></td>
+		    </tr>
+		</table>
+
+
+
+
 
 
