@@ -10,7 +10,7 @@ Za kreiranje korisničkog računa
         this.account = new Account();
     }
     
-koristim klasu Client, sa svim potrebnim getterima i setterima za svojstva klijenta: id (automatski se generira) , username, password tipa String (password je kriptiran u heksadecimalan broj, metodom sha1hex u PaswordService-u) ,te tip Account (pripadni korisnički račun koji mu je automatski dodjeljen na način da se instancira pozivom konstruktora objekta tipa Client) implementiran klasom Account. 
+koristim klasu Client, sa svim potrebnim getterima i setterima za svojstva klijenta: id (automatski se generira) , username, password tipa String (password je kriptiran u heksadecimalan broj, metodom sha1hex u Util klasi) ,te tip Account (pripadni korisnički račun koji mu je automatski dodjeljen na način da se instancira pozivom konstruktora objekta tipa Client) implementiran klasom Account. 
 
 
 Account ima inicijalnu vrijednost 1000 novaca
