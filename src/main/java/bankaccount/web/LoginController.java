@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import bankaccount.model.Account;
-import bankaccount.service.AccountService;
+import bankaccount.service.ClientService;
 import bankaccount.service.PasswordService;
 
 @Controller
@@ -19,38 +18,35 @@ import bankaccount.service.PasswordService;
 public class LoginController {
 	
 
-    private static final String LOGIN_VIEW = "account_login";
-    private static final String TRANS_VIEW = "transaction_create";
- 
+    private static final String LOGIN_VIEW = "client_login";
+    
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
     
     @Autowired
-    private AccountService service; 
-	
-	
+    private ClientService service; 
 	
 	 @RequestMapping(method = RequestMethod.GET)
 	    public String loginForm( Model model) {
 	    	
-	        model.addAttribute("accountInfo", new AccountDto());
+	        model.addAttribute("clientInfo", new ClientDto());
 	      
 	      
 	        return LOGIN_VIEW;
 	    }
 	   
     @RequestMapping(method = RequestMethod.POST)
-    public String login(@ModelAttribute("accountInfo")AccountDto accountInfo, Model model,RedirectAttributes redirectAttributes) {
+    public String login(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model,RedirectAttributes redirectAttributes) {
 
 
-        logger.info("Account create -> accountInfo: '" + accountInfo.getUsername() + "' password: '" + accountInfo.getPassword() + "'");
-        logger.info("hasshed password: " + PasswordService.getPasswordHash(accountInfo.getPassword()));
+        logger.info("Klijent ime i lozinka:" + clientInfo.getUsername() + "' password: '" + clientInfo.getPassword() + " ");
+        logger.info("hasshed password: " + PasswordService.getPasswordHash(clientInfo.getPassword()));
 
 
-        logger.info("service.isValid::  " + service.isValid(accountInfo.getUsername(), accountInfo.getPassword()));
+        logger.info("service.isValid::  " + service.isValid(clientInfo.getUsername(), clientInfo.getPassword()));
 
-        if(service.isValid(accountInfo.getUsername(), accountInfo.getPassword())) {
+        if(service.isValid(clientInfo.getUsername(), clientInfo.getPassword())) {
 
-            redirectAttributes.addFlashAttribute("accountInfo", accountInfo);
+            redirectAttributes.addFlashAttribute("clientInfo", clientInfo);
             
             return "redirect:/transactioncreate";
         }

@@ -4,11 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
-
-import bankaccount.service.PasswordService;
 import bankaccount.service.TimeService;
 
 @Entity
@@ -19,11 +19,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotNull(message = "Broj računa primatelja je obavezno")
-    private int sourceIban;
+    @NotNull(message = "Račun platitelja je obavezan")
+    @ManyToOne
+    @JoinColumn(name = "ACCOUNT_ID")
+    private Account sourceAccount;
 
-    @NotNull(message = "Broj računa izvršitelja je obavezno")
-    private int destinationIban;
+    @NotNull(message = "Broj računa primatelja je obavezno")
+    //@Size(min=10, max=10,message = "iban računa primatelja nije točne duljine")
+    private long destinationIban;
     
     @NotEmpty(message = "Status računa je obavezan")
     private String status; 
@@ -32,17 +35,20 @@ public class Transaction {
     private double balance;
    
     private String time;
+    
+    boolean verified;
 
     public Transaction() {
     }
 
-    public Transaction(int source, int dest, String status, double balance) {
+    public Transaction(Account source, long dest, String status, double balance) {
     	
-        this.sourceIban = source;
+        this.sourceAccount = source;
         this.destinationIban = dest;
         this.status = status;
         this.balance = balance;
         this.time = TimeService.currentTime();
+        this.verified = false;
     }
 
     public int getId() {
@@ -61,18 +67,18 @@ public class Transaction {
         this.time = time;
     }
 
-    public int getSourceIban() {
-        return sourceIban;
+    public Account getSourceAccount() {
+        return sourceAccount;
     }
     
-    public void setSourceIban(int iban) { this.sourceIban = sourceIban; }
+    public void setSourceAccount(Account sourceAccount) { this.sourceAccount = sourceAccount; }
 
-	public int getDestinationIban() {
+	public long getDestinationIban() {
 		
 		return destinationIban;
 	}
 	
-    public void setDestinationIban(int iban) { this.destinationIban = destinationIban; }
+    public void setDestinationIban(long destinationIban) { this.destinationIban = destinationIban; }
     
 	public String getStatus() {
 		return status;
@@ -89,13 +95,23 @@ public class Transaction {
     public void setBalance(double balance) {
         this.balance = balance;
     }
+    
+    public boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified){
+        this.verified = verified;
+    }
 
     @Override
     public String toString() {
         return String.format(
-                "Transaction[id=%d, sourceIban='%d', destinationIban='%d ,status=%s, balance = %f, time=%s']",
-                id, sourceIban,destinationIban,status,balance,time);
+                "Transaction[id=%d, sourceIban='%d', destinationIban='%d ,status=%s, balance = %f, time=%s, verified='%b']",
+                id, sourceAccount.getIban(),destinationIban,status,balance,time,verified);
     }
+
+
 
 
 }

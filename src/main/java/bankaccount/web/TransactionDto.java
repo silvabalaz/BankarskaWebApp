@@ -3,9 +3,9 @@ package bankaccount.web;
 public class TransactionDto {
 	
 
-    private int sourceIban;
+    private long sourceIban;
     
-    private int destinationIban;
+    private long destinationIban;
     
     private double amount;
 
@@ -13,26 +13,26 @@ public class TransactionDto {
 
     }
 
-    public TransactionDto(int sIban, int dIban , double amount) {
+    public TransactionDto(long sIban, long dIban , double amount) {
 
         this.sourceIban = sIban;
         this.destinationIban = dIban;
         this.amount = amount;
     }
 
-    public int getSourceIban() {
+    public long getSourceIban() {
         return sourceIban;
     }
 
-    public void setSourceIban(int iban) {
+    public void setSourceIban(long iban) {
         this.sourceIban = iban;
     }
     
-    public int getDestinationIban() {
+    public long getDestinationIban() {
         return destinationIban;
     }
 
-    public void setDestinationIban(int iban) {
+    public void setDestinationIban(long iban) {
         this.destinationIban = iban;
     }
 

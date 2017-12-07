@@ -22,7 +22,7 @@ public class TransactionService {
    
     public boolean saveTransaction(Transaction newTrans) {
 
-        boolean saved = false;
+        boolean saved = false; 
         
         Transaction newTransaction = repository.save(newTrans);
         
@@ -54,19 +54,23 @@ public class TransactionService {
     	 return allMine;
     }*/
     
-    public List<Transaction> findAllByStatus(int iban, String status){
+    public List<Transaction> findAllByStatus(long currentIban, String status){
     	//sortirati naloge po vremenu
     	//pronać sve moje naloge
     	//filter po zadanom statusu
       	 List<Transaction> all = repository.findAll();
+      	 
       	 logger.info("all: " + all);
+      	 
     	 List<Transaction> allMine = new ArrayList();
     	
     	 for(Transaction t: all) {
-    		 if(t.getSourceIban() == iban)
+    		 if(t.getSourceAccount().getIban() == currentIban)
     			 allMine.add(t);
     	 }
+    	 
     	 logger.info("allMine" + allMine);
+    	 
     	Collections.sort(allMine, new Comparator<Transaction>() {
     		  public int compare(Transaction o1, Transaction o2) {
     		      if (o1.getCurrentTime() == null || o2.getCurrentTime() == null)
@@ -74,7 +78,9 @@ public class TransactionService {
     		      return o1.getCurrentTime().compareTo(o2.getCurrentTime());
     		  }
     		});
-    	logger.info("allMine, usporedjeno po vremenu" + allMine);;
+    	
+    	logger.info("allMine, usporedjeno po vremenu" + allMine);
+    	
     	List<Transaction> statusTransactions = new ArrayList<Transaction>(); 
     	for(Transaction t : allMine ) {
     		if(t.getStatus().equals(status))
@@ -82,6 +88,7 @@ public class TransactionService {
     		
     	}
     	logger.info("statusTransactions" + statusTransactions);
+    	
     	return statusTransactions;
     	
     }

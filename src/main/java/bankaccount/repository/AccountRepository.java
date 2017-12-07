@@ -7,10 +7,8 @@ import bankaccount.model.Account;
 
 @Repository
 public interface AccountRepository extends CrudRepository<Account, Integer> {
-
-    Account save(Account account);
-    Account findByUsername(String username);
-    int findIbanByUsername(String username);
-  
+	
+    Account findByIban(long iban);
+    double findBalanceByIban(long iban); 
 }
 

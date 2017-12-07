@@ -17,6 +17,7 @@ import bankaccount.model.Account;
 import bankaccount.model.Transaction;
 import bankaccount.repository.TransactionRepository;
 import bankaccount.service.AccountService;
+import bankaccount.service.ClientService;
 import bankaccount.service.PasswordService;
 import bankaccount.service.TransactionService;
 
@@ -30,34 +31,40 @@ public class TransactionController {
     private static Logger logger = LoggerFactory.getLogger(TransactionController.class);
     
     @Autowired
-    private AccountService service; 
+    private ClientService service; 
     @Autowired
     private TransactionService serviceT; 
-    @Autowired
-    private TransactionRepository repository;
 	
 	 @RequestMapping(method = RequestMethod.GET)
-	    public String Form(@ModelAttribute("accountInfo")AccountDto accountInfo, Model model) {
+	    public String Form(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model) {
 		 
 	    	TransactionDto trans = new TransactionDto();
 	    	
-	    	int currentIban = service.findIbanByUsername(accountInfo.getUsername());
-	    	
+	    	long currentIban = service.findIbanByUsername(clientInfo.getUsername());
 	    	trans.setSourceIban(currentIban);
 	    	
-	        model.addAttribute("transactionInfo",trans);
-	        
-	        return TRANS_VIEW;
+    		model.addAttribute("transactionInfo",trans);
+        
+    		return TRANS_VIEW;
 	    }
 	 
 	
     @RequestMapping(method = RequestMethod.POST)
     public String transaction(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model, RedirectAttributes redirectAttributes) {
-
-    	Transaction newTransaction = new Transaction(transactionInfo.getSourceIban(),transactionInfo.getDestinationIban(),"zadan",transactionInfo.getAmount());
+    	
+    	if (service.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
+    		return "error";
+    	
+    	long currentSourceIban = transactionInfo.getSourceIban();
+    	
+    	Account findAccount = service.findByIban(currentSourceIban);
+    	
+    	Transaction newTransaction = new Transaction(findAccount,transactionInfo.getDestinationIban(),"zadan",transactionInfo.getAmount());
     	
         if(serviceT.saveTransaction(newTransaction) != false){
 
+           //service.saveChanges(transactionInfo.getSourceIban(),transactionInfo.getDestinationIban(),transactionInfo.getAmount() );
+           
            redirectAttributes.addFlashAttribute("transactionInfo", transactionInfo);
 			
            return "redirect:/transactioncreate/list";
@@ -67,28 +74,35 @@ public class TransactionController {
     } 
     	
 	 @RequestMapping(value = "list", method = RequestMethod.GET)
-	    public String listTransactions(@ModelAttribute("transactionInfo")TransactionDto transactionInfo ,Model model) {
+	    public String listTransactions(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model) {
 		     	
-	    	int currentIban = transactionInfo.getSourceIban();
-	    	String status = "zadan";
-	    	logger.info("currentIban and status: " + currentIban + "  " + status);
-	    		
+	    	long currentIban = transactionInfo.getSourceIban();
+	    	
+	    	String zadan = "zadan";
+	    	String izvrsen = "izvrsen";
+	    	String odbijen = "odbijen";
+	    	
 	        model.addAttribute("transactionInfo", currentIban);
-	        model.addAttribute("status", status);
+	        model.addAttribute("zadan", zadan);
+	        model.addAttribute("izvrsen", izvrsen);
+	        model.addAttribute("odbijen", odbijen);
 	        
-	        //List<Transaction> transactionsMyIban = serviceT.findAllByIban(currentIban);
-	        List<Transaction> transactionsMyIbanStatus = new ArrayList<Transaction>(); 
-	        transactionsMyIbanStatus = serviceT.findAllByStatus(currentIban,status);
-	        model.addAttribute("transactionsStatus", transactionsMyIbanStatus);
-	        logger.info("transactionsMyIbanStatus", transactionsMyIbanStatus);
-	        logger.info("serviceT.findAllByStatus(currentIban,status)", transactionsMyIbanStatus);
-	        for(Transaction t: transactionsMyIbanStatus) {
-	        	int iban = t.getSourceIban();
-	        	int dest = t.getDestinationIban();
-	        	double value = t.getBalance();
-	        	logger.info("iban,dest,value" + iban + " " + dest + " " + value);
-	        	
-	        }
+	        List<Transaction> transactionsMyIbanZadan = new ArrayList<Transaction>();
+	        List<Transaction> transactionsMyIbanIzvrsen = new ArrayList<Transaction>(); 
+	        List<Transaction> transactionsMyIbanOdbijen = new ArrayList<Transaction>(); 
+	        
+	        transactionsMyIbanZadan = serviceT.findAllByStatus(currentIban,zadan);
+	        transactionsMyIbanIzvrsen = serviceT.findAllByStatus(currentIban,izvrsen);
+	        transactionsMyIbanOdbijen = serviceT.findAllByStatus(currentIban,odbijen);
+	        /*Drop-Down list*/
+	        model.addAttribute("transactionsZadan",  transactionsMyIbanZadan);
+	        model.addAttribute("transactionsIzvrsen",transactionsMyIbanIzvrsen);
+	        model.addAttribute("transactionsOdbijen", transactionsMyIbanOdbijen);
+	        
+	        
+	        logger.info("transactionsMyIbanStatus", transactionsMyIbanZadan);
+	        logger.info("serviceT.findAllByStatus(currentIban,status)", transactionsMyIbanZadan);
+	  
 	        
 	        return TRANS_LIST;
 	    }

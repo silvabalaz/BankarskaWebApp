@@ -1,30 +1,98 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
+
+<head th:replace="common/header :: common-header">
     <title>Popis transakcija</title>
 </head>
+
+<h2>Pregledaj transakcije po statusu:</h2>
+
 <body>
 
-<h1>Popis transakcija</h1>
-
+<h3>Popis transakcija</h3>
 <p>Ovo su vaše transakcije.Možete ih filtrirati po statusu.</p>
+<table border="1">
+     <tr id="header">
+   	 	<td><b>Vaš broj računa:</b></td>
+        <td th:text="${transactionInfo}"><b></b></td>
+    </tr>
+</table>
+<p>Filtriraj po statusu transakcije:</p>		
+<select id="trans">
+  <option value="">Odaberi status</option>
+  <option value="zadan">ZADAN</option>
+  <option value="odbijen">ODBIJEN</option>
+  <option value="izvrsen">IZVRŠEN</option>
+  </select>
+<table class ="zadan" border="1">
+     <tr id="header">
+   	 	<td>Broj računa uplate:</td> 
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td>   
+    </tr>
+    <tr th:each="t : ${transactionsZadan}">
+         <td th:text="${t.destinationIban}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
+    </tr>
+</table>
+
+<table class ="odbijen" border="1">
+    <tr id="header">
+   	 	<td>Broj računa uplate:</td> 
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td>   
+    </tr>
+    <tr th:each="t : ${transactionsOdbijen}">
+         <td th:text="${t.destinationIban}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
+    </tr>
+</table>
+
+<table class ="izvrsen" border="1">
+    <tr id="header"> 
+   	 	<td>Broj računa uplate:</td> 
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td> 
+    </tr>
+    <tr th:each="t : ${transactionsIzvrsen}">
+         <td th:text="${t.destinationIban}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
+    </tr>
+</table>
 
 
-    <table>
-        <tr >
-            <td>Vaš broj računa:</td>
-            <td th:text="${transactionInfo}"></td>
-            <td>Vaše transakcije:</td>
-        </tr>
-            <tr th:each="trans,iterationStatus: ${transactionsStatus}">
-        	<td th:text="${iterationStatus.count}">1</td>
-            <td>Broj računa uplate:</td>
-            <td th:text="${trans.destinationIban}"></td>
-            <td>Iznos transakcije:</td>
-            <td th:text="${trans.balance}"></td>
-        </tr>
-    </table>
+<p><a href="/">Povratak na početnu</a></p>
+<p><a href="/transactioncreate">Napravi transakciju</a></p>
 
+   <script>
+$(document).ready(function () {
+    $("#trans").change(function () {
+        var selected = $(this).val();
 
+        if (selected != '') {
+            var values = $.map($('#trans>option'), function (e) {
+                return e.value;
+            });
+
+            values.forEach(function (item) {
+                if (item != '') {
+                    if (selected == item) {
+                        $('.' + item).show();
+                    } else {
+                        $('.' + item).hide();
+                    }
+                } else {
+                    //Show all rows
+                }
+            });
+        } else {
+            $('table').show();
+        } });
+});
+    
+</script> 
 </body>
 </html>

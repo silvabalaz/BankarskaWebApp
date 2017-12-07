@@ -12,12 +12,12 @@ import bankaccount.model.Account;
 import bankaccount.model.Transaction;
 import bankaccount.repository.AccountRepository;
 import bankaccount.repository.TransactionRepository;
-import bankaccount.web.NewAccountController;
+import bankaccount.web.NewClientController;
 
 @SpringBootApplication
 public class BankAccountApplication {
 	
-	private static Logger log = LoggerFactory.getLogger(NewAccountController.class);
+	private static Logger log = LoggerFactory.getLogger(NewClientController.class);
 	 
 	public static void main(String[] args) {
 		SpringApplication.run(BankAccountApplication.class, args);

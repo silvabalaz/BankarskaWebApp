@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header">
+    <title>Bank account</title>
+</head>
+<body>
+
+<h3>Otvaranje novog računa</h3>
+<p th:if="${vecPostoji== true}">Račun s tim imenom već postoji!</p>
+
+
+<form th:action="@{/clientcreate}" th:object="${clientInfo}" method="post">
+    <table>
+        <tr>
+            <td>Korisničko ime</td>
+            <td><input type="text" th:field="*{username}"/></td>
+        </tr>
+        <tr>
+            <td>Lozinka</td>
+            <td><input type="password" th:field="*{password}"/></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit">Otvori račun</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<h1>Result</h1>
+<p th:text="'Welcome, ' + ${noviKlijentIme}" />
+
+<p><a href="/">Povratak na početnu</a></p>
+<p><a href="/login">Ulogiraj se</a></p>
+
+</body>
+</html>

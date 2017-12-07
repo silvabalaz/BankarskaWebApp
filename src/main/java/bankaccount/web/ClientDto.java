@@ -1,16 +1,16 @@
 package bankaccount.web;
 
-public class AccountDto {
+public class ClientDto {
 	
 
     private String username;
     private String password;
 
-    public AccountDto(){
+    public ClientDto(){
 
     }
 
-    public AccountDto(String username, String password) {
+    public ClientDto(String username, String password) {
 
         this.username = username;
         this.password = password;
@@ -35,7 +35,7 @@ public class AccountDto {
     @Override
     public String toString() {
         return String.format(
-                "AccountDto[user='%s', password='%s']", username, password);
+                "ClientDto[user='%s', password='%s']", username, password);
     }
 	
 

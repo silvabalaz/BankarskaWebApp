@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head th:replace="common/header :: common-header">
     <title>Izdavanje transakcije</title>
 </head>
 <body>
 
-<h1>Izdavanje transakcije</h1>
+<h3>Izdavanje transakcije</h3>
 
 <p>Ulogirani ste.Izdavanje transakcije slijedi.</p>
 
 
 
-<h1>Otvaranje nove transakcije</h1>
+<h4>Otvaranje nove transakcije</h4>
 <p th:if="${isWrongData == true}">Krivi broj računa ili prevelik iznos transakcije!</p>
 
 

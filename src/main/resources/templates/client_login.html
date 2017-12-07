@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Bank account</title>
+<head th:replace="common/header :: common-header">
+    <title>Autentifikacija</title>
 </head>
 <body>
 
-<h1>Otvaranje novog računa</h1>
+<h3>Autentifikacija</h3>
 <p th:if="${isWrongPassword == true}">Krivo korisničko ime ili lozinka!</p>
 
 
-<form th:action="@{/accountcreate}" th:object="${accountInfo}" method="post">
+<form th:action="@{/login}" th:object="${clientInfo}" method="post">
     <table>
         <tr>
-            <td>Korisničko ime</td>
+            <td>Korisničko ime:</td>
             <td><input type="text" th:field="*{username}"/></td>
         </tr>
         <tr>
-            <td>Lozinka</td>
+            <td>Lozinka:</td>
             <td><input type="password" th:field="*{password}"/></td>
         </tr>
         <tr>
             <td>
-                <button type="submit">Otvori račun</button>
+                <button type="submit">Ulogiraj se</button>
             </td>
         </tr>
     </table>
 </form>
-
-<h1>Result</h1>
-<p th:text="'Welcome, ' + ${accountInfo.username}" />
-<p th:text="'password: ' + ${accountInfo.password}" />
-
 
 </body>
 </html>

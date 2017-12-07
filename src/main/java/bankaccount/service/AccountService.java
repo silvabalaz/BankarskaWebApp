@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import bankaccount.model.Account;
+import bankaccount.model.Client;
 import bankaccount.repository.AccountRepository;
 
 import java.util.List;
@@ -17,50 +18,30 @@ public class AccountService {
 
     @Autowired
     private AccountRepository repository;
-
-    public boolean save(Account account){
-
-        boolean saved = false;
-        Account newAccount = repository.save(account);
-
-        logger.info("Saved prije: " + saved + "User:" + newAccount.getUsername() + " " + newAccount.getPassword() );
-        if(newAccount != null) {
-            return saved = true;
-
-        }
-        logger.info("PRIJE RETURNA U SAVEU" + newAccount);
-        return saved;
-    }
-
-    public boolean isValid(String username, String password) {
-
-        boolean isValid = false;
-
-        if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
-
-            final String hashedPassword = PasswordService.getPasswordHash(password);
-        	//final String hashedPassword = password;
-            Account account = repository.findByUsername(username);
-            logger.info("account by username" + account.getUsername());
-            if (hashedPassword.equals(account.getPassword())) 
-                isValid = true;
-               
-       }
-        
-        return isValid;
-    }
-
-    public Account findByUsername(String username) {
+   
+    public Account findByIban(long iban) {
     	
-    	return repository.findByUsername(username);
+    	return repository.findByIban(iban);
     	
     }
     
-    public int findIbanByUsername(String username){
+	public double findBalanceByIban(long iban) {
     	
-    	Account account = repository.findByUsername(username);
-        int currentIban = account.getIban();
-      
-    	return currentIban;	    	
-    }
+    	Account account = repository.findByIban(iban);
+        double balance = account.getBalance();
+        return balance;
+	}
+/*
+	public void saveChanges(int sourceIban, int destinationIban, double amount) {
+		
+		Account source = repository.findByIban(sourceIban);
+		Account destination = repository.findByIban(destinationIban);
+		logger.info("source, destination" + source + " " + destination);
+		double newSourceBalance = source.getBalance() - amount;
+		double newDestinationBalance = source.getBalance() + amount;
+		
+		source.setBalance(newSourceBalance);
+		destination.setBalance(newDestinationBalance);
+		logger.info("source, destination" + source + " " + destination);
+	}*/
 }
