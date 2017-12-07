@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import bankaccount.service.ClientService;
-import bankaccount.service.PasswordService;
+import bankaccount.service.Util;
 
 @Controller
 @RequestMapping("/login")
@@ -39,9 +39,7 @@ public class LoginController {
 
 
         logger.info("Klijent ime i lozinka:" + clientInfo.getUsername() + "' password: '" + clientInfo.getPassword() + " ");
-        logger.info("hasshed password: " + PasswordService.getPasswordHash(clientInfo.getPassword()));
-
-
+        logger.info("hasshed password: " + Util.getPasswordHash(clientInfo.getPassword()));
         logger.info("service.isValid::  " + service.isValid(clientInfo.getUsername(), clientInfo.getPassword()));
 
         if(service.isValid(clientInfo.getUsername(), clientInfo.getPassword())) {

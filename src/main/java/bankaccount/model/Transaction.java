@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
-import bankaccount.service.TimeService;
+import bankaccount.service.Util;
 
 @Entity
 public class Transaction {
@@ -47,7 +47,7 @@ public class Transaction {
         this.destinationIban = dest;
         this.status = status;
         this.balance = balance;
-        this.time = TimeService.currentTime();
+        this.time = Util.currentTime();
         this.verified = false;
     }
 

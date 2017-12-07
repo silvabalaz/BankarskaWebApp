@@ -41,7 +41,7 @@ public class ClientService {
 
         if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
 
-            final String hashedPassword = PasswordService.getPasswordHash(password);
+            final String hashedPassword = Util.getPasswordHash(password);
         
             Client client = repository.findByUsername(username);
             

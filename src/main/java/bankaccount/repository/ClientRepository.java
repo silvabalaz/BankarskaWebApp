@@ -12,8 +12,5 @@ public interface ClientRepository extends CrudRepository<Client, Integer>{
     public Client save(Client client);
     public Client findByUsername(String username);
     public Client findIbanByAccount(Account account);
-    //long findIbanByUsername(String username);
-   // double findBalanceByIban(long iban);
-	
-
+  	
 }

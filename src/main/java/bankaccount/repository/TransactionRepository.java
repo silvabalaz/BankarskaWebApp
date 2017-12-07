@@ -11,6 +11,5 @@ public interface TransactionRepository extends CrudRepository<Transaction, Integ
 
 	Transaction save(Transaction newTransaction);
     List<Transaction> findAll();
-    //List<Transaction> findAllBysourceIban(int iban);
     List<Transaction> findAllByStatus(int iban, String status);
 }

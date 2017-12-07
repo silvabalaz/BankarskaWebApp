@@ -18,7 +18,7 @@ import bankaccount.model.Transaction;
 import bankaccount.repository.TransactionRepository;
 import bankaccount.service.AccountService;
 import bankaccount.service.ClientService;
-import bankaccount.service.PasswordService;
+import bankaccount.service.Util;
 import bankaccount.service.TransactionService;
 
 @Controller
@@ -31,16 +31,16 @@ public class TransactionController {
     private static Logger logger = LoggerFactory.getLogger(TransactionController.class);
     
     @Autowired
-    private ClientService service; 
+    private ClientService clientService; 
     @Autowired
-    private TransactionService serviceT; 
+    private TransactionService transactionService; 
 	
 	 @RequestMapping(method = RequestMethod.GET)
 	    public String Form(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model) {
 		 
 	    	TransactionDto trans = new TransactionDto();
 	    	
-	    	long currentIban = service.findIbanByUsername(clientInfo.getUsername());
+	    	long currentIban = clientService.findIbanByUsername(clientInfo.getUsername());
 	    	trans.setSourceIban(currentIban);
 	    	
     		model.addAttribute("transactionInfo",trans);
@@ -52,16 +52,16 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.POST)
     public String transaction(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model, RedirectAttributes redirectAttributes) {
     	
-    	if (service.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
+    	if (clientService.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
     		return "error";
     	
     	long currentSourceIban = transactionInfo.getSourceIban();
     	
-    	Account findAccount = service.findByIban(currentSourceIban);
+    	Account findAccount = clientService.findByIban(currentSourceIban);
     	
     	Transaction newTransaction = new Transaction(findAccount,transactionInfo.getDestinationIban(),"zadan",transactionInfo.getAmount());
     	
-        if(serviceT.saveTransaction(newTransaction) != false){
+        if(transactionService.saveTransaction(newTransaction) != false){
 
            //service.saveChanges(transactionInfo.getSourceIban(),transactionInfo.getDestinationIban(),transactionInfo.getAmount() );
            
@@ -78,22 +78,15 @@ public class TransactionController {
 		     	
 	    	long currentIban = transactionInfo.getSourceIban();
 	    	
-	    	String zadan = "zadan";
-	    	String izvrsen = "izvrsen";
-	    	String odbijen = "odbijen";
-	    	
 	        model.addAttribute("transactionInfo", currentIban);
-	        model.addAttribute("zadan", zadan);
-	        model.addAttribute("izvrsen", izvrsen);
-	        model.addAttribute("odbijen", odbijen);
-	        
+	    
 	        List<Transaction> transactionsMyIbanZadan = new ArrayList<Transaction>();
 	        List<Transaction> transactionsMyIbanIzvrsen = new ArrayList<Transaction>(); 
 	        List<Transaction> transactionsMyIbanOdbijen = new ArrayList<Transaction>(); 
 	        
-	        transactionsMyIbanZadan = serviceT.findAllByStatus(currentIban,zadan);
-	        transactionsMyIbanIzvrsen = serviceT.findAllByStatus(currentIban,izvrsen);
-	        transactionsMyIbanOdbijen = serviceT.findAllByStatus(currentIban,odbijen);
+	        transactionsMyIbanZadan = transactionService.findAllByStatus(currentIban,"zadan");
+	        transactionsMyIbanIzvrsen = transactionService.findAllByStatus(currentIban,"izvrsen");
+	        transactionsMyIbanOdbijen = transactionService.findAllByStatus(currentIban,"odbijen");
 	        /*Drop-Down list*/
 	        model.addAttribute("transactionsZadan",  transactionsMyIbanZadan);
 	        model.addAttribute("transactionsIzvrsen",transactionsMyIbanIzvrsen);

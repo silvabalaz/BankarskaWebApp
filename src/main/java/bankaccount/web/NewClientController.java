@@ -37,7 +37,7 @@ public class NewClientController {
     }
    
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model,RedirectAttributes redirectAttributes) {
+    public String create(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model) {
     	
     	logger.info("Podaci o trenutnom klijentu:", clientInfo.getUsername(), clientInfo.getPassword());
     	
@@ -49,7 +49,6 @@ public class NewClientController {
 	        
        }
     		
-     
         Client newClient = new Client(clientInfo.getUsername(), clientInfo.getPassword());    
         
 		service.save(newClient);

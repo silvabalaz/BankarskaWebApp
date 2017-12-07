@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import bankaccount.service.PasswordService;
+import bankaccount.service.Util;
 
 @Entity
 public class Client {
@@ -36,7 +36,7 @@ public class Client {
     public Client(String username, String password) {
     	
         this.username = username;
-        this.password = PasswordService.getPasswordHash(password);
+        this.password = Util.getPasswordHash(password);
         
         this.account = new Account();
     }
@@ -61,7 +61,7 @@ public class Client {
         return password;
     }
 
-    public void setPassword(String password) { this.password = PasswordService.getPasswordHash(password); }
+    public void setPassword(String password) { this.password = Util.getPasswordHash(password); }
     
     
     public Account getAccount() {
