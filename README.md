@@ -10,10 +10,10 @@ Za kreiranje korisničkog računa
         this.account = new Account();
     }
     
-koristim klasu Client, sa svim potrebnim getterima i setterima za svojstva klijenta: id (automatsk se generira) , username, password tipa String (password je kriptiran u heksadecimalan broj, metodom sha1hex u PaswordService-u) ,te tip Account (pripadni korisnički račun koji mu je automatski dodjeljen na način da se instancira pozivom konstruktora objekta tipa Client) implementrian klasom Account. 
+koristim klasu Client, sa svim potrebnim getterima i setterima za svojstva klijenta: id (automatski se generira) , username, password tipa String (password je kriptiran u heksadecimalan broj, metodom sha1hex u PaswordService-u) ,te tip Account (pripadni korisnički račun koji mu je automatski dodjeljen na način da se instancira pozivom konstruktora objekta tipa Client) implementiran klasom Account. 
 
 
-Account ima inicjalnu vrijednost 1000 novaca
+Account ima inicijalnu vrijednost 1000 novaca
 
     public Account() {
     	
@@ -24,7 +24,7 @@ Account ima inicjalnu vrijednost 1000 novaca
 jer mu je u konstruktoru balance svojstvo inicijalizirano na 1000, a svojstvo iban je broj tipa long , duljine 10 znamenaka koristeći funkciju random() koja bira nasumično prirodne brojeve, a množeći ju sa velikim brojem određene duljine dobivamo duljinu broja od 10 znamenaka.
 
 
-Početna stranica aplikacije ostvarena templeat-om *index.html* nudi tri linka: kreiranje klijenta, login i napravi transakciju.
+Početna stranica aplikacije ostvarena template-om *index.html* nudi tri linka: kreiranje klijenta, login i napravi transakciju.
 Korištenje elemenata bootstrapa kroz ostale templeate ostvarujem tako da includam Bootstrap u *index.html*, a datoteke Javascripta i Bootstrapa se nalaze u static folderu projekta.
 
 
@@ -73,16 +73,18 @@ Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* 
 **TransactionController**
 
 povezan rutom */transactioncreate*. 
-Podatci koji stižu objektom redirectAttributes na ovu rutu su podatci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući iban računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam iban računa za prikaz u viewu.
+Podaci koji stižu objektom redirectAttributes na ovu rutu su podaci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući iban računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam IBAN računa za prikaz u viewu.
 Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbije,izvrsen), balance, time, verified.
 *sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (account id-jem).
 
 Metoda *transaction* stvara novu transakciju sa statusom *zadan* i sprema ju u bazu u tablicu *Transaction*, ako je ispunjen uvjet da je iznos transakcije manji od kolicine novca na trenutnom racunu ispitanog u if uvjetu:
-if (service.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
-    		return "error";
 
-Informacije o transakciji iz forme su omogućile putem servisa dohvaćanje ibana trenutnog klijenta i iznosa novaca transakcije.
-Servis *TransactionServis* omogućuje spremanje transakcije u tablicu, a zatim putem objekta redirectAttribute informacje o transakciji prosljeđujemo ruti *list*.
+
+	if (service.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
+			return "error";
+
+Informacije o transakciji iz forme su omogućile putem servisa dohvaćanje IBANA trenutnog klijenta i iznosa novaca transakcije.
+Servis *TransactionServis* omogućuje spremanje transakcije u tablicu, a zatim putem objekta redirectAttribute informacije o transakciji prosljeđujemo ruti *list*.
 
 Metoda *listTransactions* dohvaća sve transakcije trenuntog korisnika, posprema ih u tri liste po statusima: *zadan,odbijen i izvsen*. Ti podaci su dostupni u viewu *transaction_list*. 
 
@@ -90,24 +92,16 @@ Metoda *listTransactions* dohvaća sve transakcije trenuntog korisnika, posprema
 	 @RequestMapping(value = "list", method = RequestMethod.GET)
 	    public String listTransactions(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model) {
 		     	
-	    	long currentIban = transactionInfo.getSourceIban();
-	    	
-	    	String zadan = "zadan";
-	    	String izvrsen = "izvrsen";
-	    	String odbijen = "odbijen";
-	    	
+	    	long currentIban = transactionInfo.getSourceIban();    	
 	        model.addAttribute("transactionInfo", currentIban);
-	        model.addAttribute("zadan", zadan);
-	        model.addAttribute("izvrsen", izvrsen);
-	        model.addAttribute("odbijen", odbijen);
-	        
+	           
 	        List<Transaction> transactionsMyIbanZadan = new ArrayList<Transaction>();
 	        List<Transaction> transactionsMyIbanIzvrsen = new ArrayList<Transaction>(); 
 	        List<Transaction> transactionsMyIbanOdbijen = new ArrayList<Transaction>(); 
 	        
-	        transactionsMyIbanZadan = serviceT.findAllByStatus(currentIban,zadan);
-	        transactionsMyIbanIzvrsen = serviceT.findAllByStatus(currentIban,izvrsen);
-	        transactionsMyIbanOdbijen = serviceT.findAllByStatus(currentIban,odbijen);
+	        transactionsMyIbanZadan = serviceT.findAllByStatus(currentIban,"zadan");
+	        transactionsMyIbanIzvrsen = serviceT.findAllByStatus(currentIban,"izvrsen");
+	        transactionsMyIbanOdbijen = serviceT.findAllByStatus(currentIban,"odbijen");
 	        /*Drop-Down list*/
 	        model.addAttribute("transactionsZadan",  transactionsMyIbanZadan);
 	        model.addAttribute("transactionsIzvrsen",transactionsMyIbanIzvrsen);
