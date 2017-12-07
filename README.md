@@ -30,7 +30,23 @@ Korištenje elemenata bootstrapa kroz ostale templeate ostvarujem tako da includ
 
 **NewClientController** označen notacijom *@Controller* povezan je s rutom */clientcreate* uz notaciju *RequestMapping* i koristi metode *ClientService*-a korištenjem notacije *@Autowired* prije deklaracije servisa.
 
+
+    @Autowired
+    public ClientService service; 
+   
+    @RequestMapping(method = RequestMethod.GET)
+    public String clientCreate( Model model) {
+    	
+        model.addAttribute("clientInfo", new ClientDto());
+      
+      
+        return CREATE_VIEW;
+    }
+    
+    
 Get metoda *clientCreate* kreira objekt *ClientDto* za prijenos (DTO- *Data transfer object*) podataka novostvorenog klijenta (username i password) i vraća *view* kako bi korisnik unio svoje podatke u formu i otvorio račun pritiskom gumba. 
 Post metoda *create* podatke iz forme na pritisak gumba prosljeđuje podatke iz *ClientDto* objekta u kontruktor Client objekta kako bi se generirao novi korisnik i njegov račun (ako već korisnik ne postoji u bazi, a to provjerim metodom servisa ClientService, *findByUsername* koja vrati različito od *null* ako postoji osoba s tim usernameom u bazi). Spremanje korisnika u bazu radim metodom *save* servisa *ClientService*. 
 
-****
+**LoginController**
+
+povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* view-u *client_login*. Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisas ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi metodom *findByUsername*. Ukoliko klijen već postoji, ulogiravam ga na način da njgove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te to ispisujem u viewu.
