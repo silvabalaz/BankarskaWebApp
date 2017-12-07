@@ -45,8 +45,37 @@ Korištenje elemenata bootstrapa kroz ostale templeate ostvarujem tako da includ
     
     
 Get metoda *clientCreate* kreira objekt *ClientDto* za prijenos (DTO- *Data transfer object*) podataka novostvorenog klijenta (username i password) i vraća *view* kako bi korisnik unio svoje podatke u formu i otvorio račun pritiskom gumba. 
-Post metoda *create* podatke iz forme na pritisak gumba prosljeđuje podatke iz *ClientDto* objekta u kontruktor Client objekta kako bi se generirao novi korisnik i njegov račun (ako već korisnik ne postoji u bazi, a to provjerim metodom servisa ClientService, *findByUsername* koja vrati različito od *null* ako postoji osoba s tim usernameom u bazi). Spremanje korisnika u bazu radim metodom *save* servisa *ClientService*. 
+Post metoda *create* podatke iz forme na pritisak gumba prosljeđuje podatke iz *ClientDto* objekta u kontruktor Client objekta kako bi se generirao novi korisnik i njegov račun (ako već korisnik ne postoji u bazi, a to provjerim metodom servisa ClientService, *findByUsername* koja vrati različito od *null* ako postoji osoba s tim username-om u bazi). Spremanje korisnika u bazu radim metodom *save* servisa *ClientService*. U bazi se nalazi generirana tablica *Client* koja ima vezu jedan klijent sa jednim računom (svojstvo account u Client objektu sa id-jem u Account objektu).
 
 **LoginController**
 
-povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* view-u *client_login*. Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisas ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi metodom *findByUsername*. Ukoliko klijen već postoji, ulogiravam ga na način da njgove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te to ispisujem u viewu.
+povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* view-u *client_login*. 
+	   
+    @RequestMapping(method = RequestMethod.POST)
+    public String login(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model,RedirectAttributes redirectAttributes) {
+
+        if(service.isValid(clientInfo.getUsername(), clientInfo.getPassword())) {
+
+            redirectAttributes.addFlashAttribute("clientInfo", clientInfo);
+            
+            return "redirect:/transactioncreate";
+        }
+
+        model.addAttribute("isWrongPassword", true);
+
+
+        return loginForm(model);
+    }
+
+
+Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi metodom *findByUsername*. Ukoliko klijen već postoji, ulogiravam ga na način da njgove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
+
+**TransactionController**
+
+povezan rutom */transactioncreate*. 
+Podatci koji stižu objektom redirectAttributes na ovu rutu su podatci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući iban računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam iban računa za prikaz u viewu.
+Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbije,izvrsen), balance, time, verified.
+*sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (account id-jem).
+
+
+
