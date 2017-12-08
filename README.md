@@ -68,14 +68,14 @@ povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* v
     }
 
 
-Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi metodom *findByUsername*. Ukoliko klijen već postoji, ulogiravam ga na način da njgove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
+Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi klijent, metodom *findByUsername*. Ukoliko klijent već postoji, odrađujem login na način da njegove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
 
 **TransactionController**
 
 povezan rutom */transactioncreate*. 
-Podaci koji stižu objektom redirectAttributes na ovu rutu su podaci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući iban računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam IBAN računa za prikaz u viewu.
+Podaci koji stižu objektom redirectAttributes na ovu rutu su podaci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući IBAN računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam IBAN računa za prikaz u viewu.
 Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbije,izvrsen), balance, time, verified.
-*sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (account id-jem).
+*sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (Account id-jem).
 
 Metoda *transaction* stvara novu transakciju sa statusom *zadan* i sprema ju u bazu u tablicu *Transaction*, ako je ispunjen uvjet da je iznos transakcije manji od kolicine novca na trenutnom racunu ispitanog u if uvjetu:
 
@@ -114,7 +114,7 @@ Metoda *listTransactions* dohvaća sve transakcije trenuntog korisnika, posprema
 
 
 
-U templaetu *transaction_list* uz pomoć javascript funkcije i html elemenata tablice i oznake *class* koja moze biti *zadan,izvrsen i odbijen*, moguće je transakcije filtrirati sa *drop-down *izbornikom *select-option*.
+U template-u *transaction_list* uz pomoć javascript funkcije i html elemenata tablice i oznake *class* koja moze biti *zadan,izvrsen i odbijen*, moguće je transakcije filtrirati sa *drop-down* izbornikom *select-option*.
 
 		<p>Filtriraj po statusu transakcije:</p>		
 		<select id="trans">
@@ -138,7 +138,9 @@ U templaetu *transaction_list* uz pomoć javascript funkcije i html elemenata ta
 
 
 **pom.xml**
-Odabrala sam koristiti Maven za build system.
+
+
+Odabrala sam koristiti *Maven* za build system.
 Dodala sam sve dependencies koji su bili potrebni redom kako sam radila: spring-boot-starter-data-jpa,hibernate-validator,spring-webmvc,spring-boot-starter-thymeleaf itd. 
 
 		<dependency>
