@@ -1,10 +1,13 @@
 package bankaccount.web;
 
+import bankaccount.model.security.Role;
+
 public class ClientDto {
 	
 
     private String username;
     private String password;
+    private Role role = Role.USER;
 
     public ClientDto(){
 
@@ -30,6 +33,14 @@ public class ClientDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override

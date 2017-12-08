@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import bankaccount.model.Account;
 import bankaccount.model.Client;
 import bankaccount.model.Transaction;
+import bankaccount.model.security.Role;
 import bankaccount.repository.AccountRepository;
 import bankaccount.repository.ClientRepository;
 import bankaccount.repository.TransactionRepository;
@@ -30,8 +31,8 @@ public class BankAccountApplication {
 		return (args) -> { 
 			//save a couple of customers
 			
-			
-			Client client = new Client("Jana", "1234");
+			Role role = Role.USER;
+			Client client = new Client("Jana", "1234",role);
 	
 			repository.save(client);
 	

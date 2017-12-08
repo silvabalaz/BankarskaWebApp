@@ -2,6 +2,8 @@ package bankaccount.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import bankaccount.model.security.Role;
 import bankaccount.service.Util;
 
 @Entity
@@ -30,15 +33,20 @@ public class Client {
     @OneToOne(cascade = {CascadeType.ALL})
     private Account account;
     
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    
     public Client() {
     }
 
-    public Client(String username, String password) {
+    public Client(String username, String password, Role role) {
     	
         this.username = username;
         this.password = Util.getPasswordHash(password);
         
         this.account = new Account();
+        this.role = role;
     }
 
     public int getId() {
@@ -72,4 +80,11 @@ public class Client {
         this.account = account;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

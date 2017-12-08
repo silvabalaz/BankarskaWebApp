@@ -49,7 +49,7 @@ public class NewClientController {
 	        
        }
     		
-        Client newClient = new Client(clientInfo.getUsername(), clientInfo.getPassword());    
+        Client newClient = new Client(clientInfo.getUsername(), clientInfo.getPassword(), clientInfo.getRole());    
         
 		service.save(newClient);
 		
