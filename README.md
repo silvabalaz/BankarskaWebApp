@@ -114,7 +114,7 @@ Metoda *listTransactions* dohvaća sve transakcije trenuntog korisnika, posprema
 
 
 
-U templaetu *transaction_list* uz pomoć javascript funkcije i html elemenata tablice i oznake *class* koja moze biti *zadan,izvrsen i odbijen*, moguće je transakcije filtrirati sa *drop-down* izbornikom *select-option*.
+U template-u *transaction_list* uz pomoć javascript funkcije i html elemenata tablice i oznake *class* koja moze biti *zadan,izvrsen i odbijen*, moguće je transakcije filtrirati sa *drop-down* izbornikom *select-option*.
 
 		<p>Filtriraj po statusu transakcije:</p>		
 		<select id="trans">
