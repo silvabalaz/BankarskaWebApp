@@ -68,7 +68,7 @@ povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* v
     }
 
 
-Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi metodom *findByUsername*. Ukoliko klijen već postoji, ulogiravam ga na način da njgove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
+Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi metodom *findByUsername*. Ukoliko klijent već postoji, odrađujem login na način da njegove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
 
 **TransactionController**
 
