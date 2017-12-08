@@ -73,7 +73,7 @@ Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* 
 **TransactionController**
 
 povezan rutom */transactioncreate*. 
-Podaci koji stižu objektom redirectAttributes na ovu rutu su podaci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući iban računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam IBAN računa za prikaz u viewu.
+Podaci koji stižu objektom redirectAttributes na ovu rutu su podaci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući IBAN računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam IBAN računa za prikaz u viewu.
 Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbije,izvrsen), balance, time, verified.
 *sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (account id-jem).
 
