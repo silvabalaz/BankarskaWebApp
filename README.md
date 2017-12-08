@@ -138,7 +138,9 @@ U template-u *transaction_list* uz pomoć javascript funkcije i html elemenata t
 
 
 **pom.xml**
-Odabrala sam koristiti Maven za build system.
+
+
+Odabrala sam koristiti *Maven* za build system.
 Dodala sam sve dependencies koji su bili potrebni redom kako sam radila: spring-boot-starter-data-jpa,hibernate-validator,spring-webmvc,spring-boot-starter-thymeleaf itd. 
 
 		<dependency>
