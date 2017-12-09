@@ -10,6 +10,7 @@ import bankaccount.model.Transaction;
 public interface TransactionRepository extends CrudRepository<Transaction, Integer> {
 
 	Transaction save(Transaction newTransaction);
+	Transaction findById(int id);
     List<Transaction> findAll();
     List<Transaction> findAllByStatus(int iban, String status);
 }

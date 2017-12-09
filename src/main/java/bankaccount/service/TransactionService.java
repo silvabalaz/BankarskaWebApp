@@ -35,25 +35,6 @@ public class TransactionService {
     		 
     }
     
-    public List<Transaction> findAll(){
-    	
-    	return repository.findAll();
-    	 	
-    }
-    /*
-    public List<Transaction> findAllBysourceIban(int iban){
-    	
-    	 List<Transaction> all = repository.findAll();
- 
-    	 List<Transaction> allMine = new ArrayList();
-    	 
-    	 for(Transaction t: all) {
-    		 if(t.getSourceIban() == iban)
-    			 allMine.add(t);
-    	 }
-    	 return allMine;
-    }*/
-    
     public List<Transaction> findAllByStatus(long currentIban, String status){
     	//sortirati naloge po vremenu
     	//pronać sve moje naloge
@@ -92,5 +73,20 @@ public class TransactionService {
     	return statusTransactions;
     	
     }
+    
+    public List<Transaction> findAll(){
+    	
+    	return repository.findAll();
+    	 	
+    }
+    
+    public Transaction findById(int id){
+    	
+    	return repository.findById(id);
+    	 	
+    }
+    
+ 
+
 
 }

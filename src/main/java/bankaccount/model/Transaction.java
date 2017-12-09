@@ -19,19 +19,19 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotNull(message = "Račun platitelja je obavezan")
+    @NotNull(message = "Račun platitelja je obavezan.")
     @ManyToOne
     @JoinColumn(name = "ACCOUNT_ID")
     private Account sourceAccount;
 
     @NotNull(message = "Broj računa primatelja je obavezno")
-    //@Size(min=10, max=10,message = "iban računa primatelja nije točne duljine")
+    @Size(min = 10, max = 10, message = "IBAN računa primatelja mora biti deset znamenki.")
     private long destinationIban;
     
-    @NotEmpty(message = "Status računa je obavezan")
+    @NotEmpty(message = "Status računa je obavezan.")
     private String status; 
     
-    @NotNull(message = "Iznos transakcije je obavezan")
+    @NotNull(message = "Iznos transakcije je obavezan.")
     private double balance;
    
     private String time;

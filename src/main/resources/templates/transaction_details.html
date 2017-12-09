@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header">
+    <title>Detalji transakcije</title>
+</head>
+<body>
+
+<h3>Detalji transakcije</h3>
+
+<table border="1">
+     <tr id="header">
+   	 	<td>Id transakcije:</td> 
+   	 	<td>IBAN uplatitelja transakcije:</td>
+   	 	<td>IBAN primatelja transakcije:</td>
+ 		<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td>
+   	 	<td>Vrijeme transakcije:</td>
+   	 	<td>Verificiran:</td>       
+    </tr>
+    <tr>
+    	 <td th:text="${sourceIban}"></td>
+         <td th:text="${sourceIban.toInt()}"></td>
+         <td th:text="${destinationIban.toInt()}"></td>
+         <td th:text="${balance.toDouble()}"></td>
+         <td th:text="${status}"></td>
+         <td th:text="${time}"></td>
+         <td th:text="${verified}></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

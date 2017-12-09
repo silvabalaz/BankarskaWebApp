@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/header :: common-header">
+    <title>Popis svih transakcija</title>
+</head>
+
+<h2>Popis svih transakcija:</h2>
+
+<table border="1">
+     <tr id="header">
+   	 	<td>Id transakcije:</td> 
+   	 	<td>IBAN uplatitelja transakcije:</td>
+   	 	<td>IBAN primatelja transakcije:</td>      
+    </tr>
+    <tr th:each="t : ${transactionsAll}">
+    	 <td th:text="${t.id}"></td>
+         <td th:text="${t.sourceIban}"></td>
+         <td th:text="${t.destinationIban}"></td>
+    </tr>
+</table>
+
+<body>
+
+</body>
+</html>
