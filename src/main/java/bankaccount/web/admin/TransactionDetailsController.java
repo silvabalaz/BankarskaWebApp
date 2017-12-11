@@ -12,9 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import bankaccount.service.AccountService;
 import bankaccount.service.ClientService;
 import bankaccount.service.TransactionService;
 import bankaccount.web.TransactionController;
+import bankaccount.model.Account;
 import bankaccount.model.Transaction;
 
 @Controller
@@ -25,17 +27,25 @@ public class TransactionDetailsController {
     private static final String TRANS_DETAILS = "transaction_details";
     private static final String TRANS_ALL = "transaction_all";
  
-    private static Logger logger = LoggerFactory.getLogger(TransactionController.class);
+    private static Logger logger = LoggerFactory.getLogger(TransactionDetailsController.class);
     
     @Autowired
     private TransactionService transactionService; 
+    
+    @Autowired
+    private AccountService accountService; 
 	
     @RequestMapping("/all")
     public String all(Model model) {
     	
         List<Transaction> transactionsAll = new ArrayList<Transaction>();
-        
         transactionsAll = transactionService.findAll();
+        logger.info("transactionsAll" + transactionsAll);
+        
+        List<Account> accountsAll = new ArrayList<Account>();
+        accountsAll = accountService.findAll();
+        logger.info("accountAll" + accountsAll);
+        
         
         model.addAttribute("transactionsAll", transactionsAll);
    

@@ -31,15 +31,20 @@ public class BankAccountApplication {
 		return (args) -> { 
 			//save a couple of customers
 			
-			Role role = Role.USER;
-			Client client = new Client("Jana", "1234",role);
+			Role roleUser = Role.USER;
+			Role roleAdmin = Role.ADMIN;
+			
+			Client client1 = new Client("Jana", "1234",roleUser);
+			Client client2 = new Client("Ivica", "1234",roleUser);
+			
+			Client admin = new Client("banka", "banka",roleAdmin);
 	
-			repository.save(client);
-	
-
-			log.info("client" + client);
+			repository.save(client1);
+			repository.save(client2);
+			repository.save(admin);
+			
 			for (Client c : repository.findAll()) {
-				log.info("svi racuni _______________  " + c.toString());
+				log.info("svi racuni _______________  " + c.toString() + c.getUsername());
 			} 
 		
 	

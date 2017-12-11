@@ -10,15 +10,94 @@
 <table border="1">
      <tr id="header">
    	 	<td>Id transakcije:</td> 
-   	 	<td>IBAN uplatitelja transakcije:</td>
-   	 	<td>IBAN primatelja transakcije:</td>      
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td>      
     </tr>
-    <tr th:each="t : ${transactionsAll}">
-    	 <td th:text="${t.id}"></td>
-         <td th:text="${t.sourceIban}"></td>
-         <td th:text="${t.destinationIban}"></td>
+    <tr th:each = "t : ${transactionsAll}">
+   		 <td th:text="${t.id}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
     </tr>
 </table>
+
+<p>Filtriraj po statusu transakcije:</p>		
+<select id="trans">
+  <option value="">Odaberi status</option>
+  <option value="zadan">ZADAN</option>
+  <option value="odbijen">ODBIJEN</option>
+  <option value="izvrsen">IZVRŠEN</option>
+  </select>
+<table class ="zadan" border="1">
+     <tr id="header">
+   	 	<td>Id:</td> 
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td>   
+    </tr>
+    <tr th:each="t : ${transactionsAll}">
+         <td th:text="${t.id}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
+    </tr>
+</table>
+
+<table class = "odbijen" border="1">
+    <tr id="header">
+   	 	<td>Id:</td> 
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td>   
+    </tr>
+    <tr th:each="t : ${transactionsAll}">
+         <td th:text="${t.Id}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
+    </tr>
+</table>
+
+<table class ="izvrsen" border="1">
+    <tr id="header"> 
+   	 	<td>Id:</td> 
+   	 	<td>Iznos transakcije:</td>
+   	 	<td>Status transakcije:</td> 
+    </tr>
+    <tr th:each="t : ${transactionsAll}">
+         <td th:text="${t.id}"></td>
+         <td th:text="${t.balance}"></td>
+         <td th:text="${t.status}"></td>
+    </tr>
+</table>
+
+
+<p><a href="/">Povratak na početnu</a></p>
+
+
+   <script>
+$(document).ready(function () {
+    $("#trans").change(function () {
+        var selected = $(this).val();
+
+        if (selected != '') {
+            var values = $.map($('#trans>option'), function (e) {
+                return e.value;
+            });
+
+            values.forEach(function (item) {
+                if (item != '') {
+                    if (selected == item) {
+                        $('.' + item).show();
+                    } else {
+                        $('.' + item).hide();
+                    }
+                } else {
+                    //Show all rows
+                }
+            });
+        } else {
+            $('table').show();
+        } });
+});
+    
+</script> 
+
 
 <body>
 

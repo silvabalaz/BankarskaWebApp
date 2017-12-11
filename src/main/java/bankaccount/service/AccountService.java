@@ -1,5 +1,7 @@
 package bankaccount.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,11 @@ public class AccountService {
     	Account account = repository.findByIban(iban);
         double balance = account.getBalance();
         return balance;
+	}
+
+	public List<Account> findAll() {
+		
+		return (List<Account>) repository.findAll();
 	}
 
 }

@@ -17,17 +17,16 @@
    	 	<td>Vrijeme transakcije:</td>
    	 	<td>Verificiran:</td>       
     </tr>
-    <tr>
-    	 <td th:text="${sourceIban}"></td>
-         <td th:text="${sourceIban.toInt()}"></td>
-         <td th:text="${destinationIban.toInt()}"></td>
-         <td th:text="${balance.toDouble()}"></td>
+        <tr>
+   		 <td th:text="${id}"></td>
+   		 <td th:text="${sourceIban}"></td>
+         <td th:text="${destinationIban}"></td>
+         <td th:text="${balance}"></td>
          <td th:text="${status}"></td>
          <td th:text="${time}"></td>
-         <td th:text="${verified}></td>
+         <td th:text="${verified}"></td>
     </tr>
 </table>
-
 
 </body>
 </html>

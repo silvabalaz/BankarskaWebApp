@@ -86,6 +86,36 @@ public class TransactionService {
     	 	
     }
     
+    public List<Transaction> findAllByAdmin(String status){
+    	//sortirati naloge po vremenu
+    	//pronać sve naloge
+    	//filter po zadanom statusu
+      	 List<Transaction> all = repository.findAll();
+      	 
+      	 logger.info("all: " + all);
+      	
+    	Collections.sort(all, new Comparator<Transaction>() {
+    		  public int compare(Transaction o1, Transaction o2) {
+    		      if (o1.getCurrentTime() == null || o2.getCurrentTime() == null)
+    		        return 0;
+    		      return o1.getCurrentTime().compareTo(o2.getCurrentTime());
+    		  }
+    		});
+    	
+    	logger.info("all, usporedjeno po vremenu" + all);
+    	
+    	List<Transaction> statusTransactions = new ArrayList<Transaction>(); 
+    	for(Transaction t : all ) {
+    		if(t.getStatus().equals(status))
+    			statusTransactions.add(t);
+    		
+    	}
+    	
+    	logger.info("statusTransactions" + statusTransactions);
+    	
+    	return statusTransactions;
+    	
+    }
  
 
 

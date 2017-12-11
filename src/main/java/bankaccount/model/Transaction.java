@@ -25,7 +25,7 @@ public class Transaction {
     private Account sourceAccount;
 
     @NotNull(message = "Broj računa primatelja je obavezno")
-    @Size(min = 10, max = 10, message = "IBAN računa primatelja mora biti deset znamenki.")
+    //@Size(min = 10, max = 10, message = "IBAN računa primatelja mora biti deset znamenki.")
     private long destinationIban;
     
     @NotEmpty(message = "Status računa je obavezan.")
