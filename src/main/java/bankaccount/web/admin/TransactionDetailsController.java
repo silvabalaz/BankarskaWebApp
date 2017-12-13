@@ -17,6 +17,7 @@ import bankaccount.service.ClientService;
 import bankaccount.service.TransactionService;
 import bankaccount.web.TransactionController;
 import bankaccount.model.Account;
+import bankaccount.model.Client;
 import bankaccount.model.Transaction;
 
 @Controller
@@ -33,21 +34,31 @@ public class TransactionDetailsController {
     private TransactionService transactionService; 
     
     @Autowired
-    private AccountService accountService; 
+    private ClientService clientService; 
 	
     @RequestMapping("/all")
     public String all(Model model) {
     	
-        List<Transaction> transactionsAll = new ArrayList<Transaction>();
-        transactionsAll = transactionService.findAll();
-        logger.info("transactionsAll" + transactionsAll);
+    	 
+        List<Transaction> transactionsAllByAdminZadan = new ArrayList<Transaction>();
+        List<Transaction> transactionsAllByAdminIzvrsen = new ArrayList<Transaction>(); 
+        List<Transaction> transactionsAllByAdminOdbijen = new ArrayList<Transaction>(); 
         
-        List<Account> accountsAll = new ArrayList<Account>();
-        accountsAll = accountService.findAll();
-        logger.info("accountAll" + accountsAll);
+        long adminIban = (long)100000000;
+        logger.info("adminIban" + adminIban);
+        Client admin = clientService.findByUsername("banka");
+        Account adminAccount = admin.getAccount();
+        adminAccount.setIban(adminIban);
         
-        
-        model.addAttribute("transactionsAll", transactionsAll);
+        transactionsAllByAdminZadan = transactionService.findAllByStatus(adminIban,"zadan");
+        transactionsAllByAdminIzvrsen = transactionService.findAllByStatus(adminIban,"izvrsen");
+        transactionsAllByAdminOdbijen = transactionService.findAllByStatus(adminIban,"odbijen");
+        /*Drop-Down list*/
+        model.addAttribute("transactionsZadan",  transactionsAllByAdminZadan);
+        model.addAttribute("transactionsIzvrsen",transactionsAllByAdminIzvrsen);
+        model.addAttribute("transactionsOdbijen", transactionsAllByAdminOdbijen);
+        logger.info("transactionsAllByAdminZadan" + transactionsAllByAdminZadan);
+        logger.info("transactionService.findAllByStatus(status)" + transactionsAllByAdminZadan);
    
         return TRANS_ALL;
     }

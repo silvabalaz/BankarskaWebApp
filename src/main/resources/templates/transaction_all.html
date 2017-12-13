@@ -7,19 +7,6 @@
 
 <h2>Popis svih transakcija:</h2>
 
-<table border="1">
-     <tr id="header">
-   	 	<td>Id transakcije:</td> 
-   	 	<td>Iznos transakcije:</td>
-   	 	<td>Status transakcije:</td>      
-    </tr>
-    <tr th:each = "t : ${transactionsAll}">
-   		 <td th:text="${t.id}"></td>
-         <td th:text="${t.balance}"></td>
-         <td th:text="${t.status}"></td>
-    </tr>
-</table>
-
 <p>Filtriraj po statusu transakcije:</p>		
 <select id="trans">
   <option value="">Odaberi status</option>
@@ -33,7 +20,7 @@
    	 	<td>Iznos transakcije:</td>
    	 	<td>Status transakcije:</td>   
     </tr>
-    <tr th:each="t : ${transactionsAll}">
+    <tr th:each="t : ${transactionsZadan}">
          <td th:text="${t.id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
@@ -46,7 +33,7 @@
    	 	<td>Iznos transakcije:</td>
    	 	<td>Status transakcije:</td>   
     </tr>
-    <tr th:each="t : ${transactionsAll}">
+    <tr th:each="t : ${transactionsOdbijen}">
          <td th:text="${t.Id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
@@ -59,7 +46,7 @@
    	 	<td>Iznos transakcije:</td>
    	 	<td>Status transakcije:</td> 
     </tr>
-    <tr th:each="t : ${transactionsAll}">
+    <tr th:each="t : ${transactionsIzvrsen}">
          <td th:text="${t.id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
