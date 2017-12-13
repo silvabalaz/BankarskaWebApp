@@ -15,10 +15,15 @@ import bankaccount.model.security.Role;
 import bankaccount.repository.AccountRepository;
 import bankaccount.repository.ClientRepository;
 import bankaccount.repository.TransactionRepository;
+import bankaccount.service.AccountService;
 import bankaccount.web.NewClientController;
 
 @SpringBootApplication
 public class BankAccountApplication {
+	
+	  
+    @Autowired
+    private AccountService accountService; 
 	
 	private static Logger log = LoggerFactory.getLogger(NewClientController.class);
 	 
@@ -27,7 +32,7 @@ public class BankAccountApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(ClientRepository repository) {
+	public CommandLineRunner demo(ClientRepository clientRepository) {
 		return (args) -> { 
 			//save a couple of customers
 			
@@ -39,11 +44,24 @@ public class BankAccountApplication {
 			
 			Client admin = new Client("banka", "banka",roleAdmin);
 	
-			repository.save(client1);
-			repository.save(client2);
-			repository.save(admin);
+			clientRepository.save(client1);
+			clientRepository.save(client2);
+			clientRepository.save(admin);
 			
-			for (Client c : repository.findAll()) {
+			Account account1 = client1.getAccount();
+			Account account2 = client2.getAccount();
+			Account accountA = admin.getAccount();
+			
+			account1.setIban((long)111111111);
+			account2.setIban((long)111111110);
+			accountA.setIban((long)100000000);
+			accountA.setBalance((double)0);
+			
+			accountService.save(account1);
+			accountService.save(account2);
+			accountService.save(accountA);
+			
+			for (Client c : clientRepository.findAll()) {
 				log.info("svi racuni _______________  " + c.toString() + c.getUsername());
 			} 
 		

@@ -52,10 +52,6 @@ public class TransactionDetailsController {
         List<Transaction> transactionsAllByAdminOdbijen = new ArrayList<Transaction>(); 
         
         long adminIban = (long)100000000;
-        logger.info("adminIban" + adminIban);
-        Client admin = clientService.findByUsername("banka");
-        Account adminAccount = admin.getAccount();
-        adminAccount.setIban(adminIban);
         
         transactionsAllByAdminZadan = transactionService.findAllByStatus(adminIban,"zadan");
         transactionsAllByAdminIzvrsen = transactionService.findAllByStatus(adminIban,"izvrsen");
