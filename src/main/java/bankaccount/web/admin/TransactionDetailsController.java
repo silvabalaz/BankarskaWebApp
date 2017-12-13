@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import bankaccount.service.AccountService;
+import bankaccount.service.AdminService;
 import bankaccount.service.ClientService;
 import bankaccount.service.TransactionService;
 import bankaccount.web.TransactionController;
@@ -40,7 +41,7 @@ public class TransactionDetailsController {
     private ClientService clientService; 
     
     @Autowired
-    private AccountService accountService; 
+    private AdminService adminService; 
 	
     @RequestMapping("/all")
     public String all(Model model) {
@@ -97,18 +98,8 @@ public class TransactionDetailsController {
 	    	Transaction trans = transactionService.findById(id);
 	    	
 	    	trans.setStatus("izvrsen");
-	    	
-	    	Account source = trans.getSourceAccount(); 
-	    	double newBalace = source.getBalance() - trans.getBalance();
-	    	source.setBalance(newBalace);
-	    	Long destination = trans.getDestinationIban();
-	    	Account	destAccount = clientService.findByIban(destination); 
-	    	double newDest = destAccount.getBalance() + trans.getBalance();
-	    	destAccount.setBalance(newDest);
-	    	trans.setVerified(true);
-			//accountService.save(source);
-	    	//accountService.save(destAccount);
-	    	transactionService.save(trans); 
+            
+	    	adminService.executeAdmin(trans);
 	    	
     		return "redirect:/transaction/all";
     	}
