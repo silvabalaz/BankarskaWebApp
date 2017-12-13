@@ -54,11 +54,11 @@ public class BankAccountApplication {
 			Account account1 = client1.getAccount();
 			Account account2 = client2.getAccount();
 			
-			account1.setIban((long)111111111);
-			account2.setIban((long)111111110);
+			account1.setIban((long)1111111111);
+			account2.setIban((long)1111111110);
 			
-			Transaction t1 = new Transaction(account1,(long)111111110, "zadan", (double)500.0);
-			Transaction t2 = new Transaction(account2,(long)111111111, "zadan", (double)700.0);
+			Transaction t1 = new Transaction(account1,(long)1111111110, "zadan", (double)500.0);
+			Transaction t2 = new Transaction(account2,(long)1111111111, "zadan", (double)700.0);
 			
 			accountService.save(account1);
 			accountService.save(account2);

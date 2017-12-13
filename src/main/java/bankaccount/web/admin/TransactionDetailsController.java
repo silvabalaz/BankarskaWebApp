@@ -51,7 +51,7 @@ public class TransactionDetailsController {
         List<Transaction> transactionsAllByAdminIzvrsen = new ArrayList<Transaction>(); 
         List<Transaction> transactionsAllByAdminOdbijen = new ArrayList<Transaction>(); 
         
-        long admin = (long)100000000;
+        long admin = (long)1000000000;
         
         transactionsAllByAdminZadan = transactionService.findAllByStatus(admin,"zadan");
         transactionsAllByAdminIzvrsen = transactionService.findAllByStatus(admin,"izvrsen");

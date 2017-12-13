@@ -44,9 +44,9 @@ public class TransactionService {
       	 
       	 logger.info("all: " + all);
       	 //ako nije admin
-      	 logger.info("currentIban" + currentIban);
-      	 if(currentIban != 100000000L){
-      	 logger.info("ako je USER a ne ADMIN, dohvati samo njegove transakcije----" + currentIban);
+    
+      	 if(currentIban != 1000000000L){
+      	 
     	 List<Transaction> allMine = new ArrayList();
     	
     	 for(Transaction t: all) {
