@@ -64,7 +64,7 @@ public class TransactionDetailsController {
     }
     
     @RequestMapping("/all/{id}")
-    public String details(@PathVariable Integer id, Model model) {
+    public String details(@PathVariable("id") Integer id, Model model) {
     	
     	Transaction trans = transactionService.findById(id);
     	

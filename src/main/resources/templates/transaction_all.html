@@ -18,12 +18,14 @@
      <tr id="header">
    	 	<td>Id:</td> 
    	 	<td>Iznos transakcije:</td>
-   	 	<td>Status transakcije:</td>   
+   	 	<td>Status transakcije:</td>
+   	 	<td>   </td>    
     </tr>
-    <tr th:each="t : ${transactionsZadan}">
+    <tr th:each="t: ${transactionsZadan}">
          <td th:text="${t.id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
+         <td><a th:text="Detalji" th:href="@{|/transaction/all/${t.id}|}"></a></td>
     </tr>
 </table>
 
@@ -31,12 +33,14 @@
     <tr id="header">
    	 	<td>Id:</td> 
    	 	<td>Iznos transakcije:</td>
-   	 	<td>Status transakcije:</td>   
+   	 	<td>Status transakcije:</td>
+   	 	<td>   </td>    
     </tr>
     <tr th:each="t : ${transactionsOdbijen}">
          <td th:text="${t.Id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
+          <td><a th:text="Detalji" th:href="@{|/transaction/all/${t.id}|}"></a></td>
     </tr>
 </table>
 
@@ -44,12 +48,14 @@
     <tr id="header"> 
    	 	<td>Id:</td> 
    	 	<td>Iznos transakcije:</td>
-   	 	<td>Status transakcije:</td> 
+   	 	<td>Status transakcije:</td>
+   	 	<td>     </td>  
     </tr>
     <tr th:each="t : ${transactionsIzvrsen}">
          <td th:text="${t.id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
+         <td><a th:text="Detalji" th:href="@{|/transaction/all/${t.id}|}"></a></td>
     </tr>
 </table>
 
