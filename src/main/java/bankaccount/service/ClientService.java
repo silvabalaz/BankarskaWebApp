@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import bankaccount.model.Account;
 import bankaccount.model.Client;
+import bankaccount.model.security.Role;
 import bankaccount.repository.AccountRepository;
 import bankaccount.repository.ClientRepository;
 
@@ -71,7 +72,10 @@ public class ClientService {
     public long findIbanByUsername(String username) {
     	
     	Client client = repository.findByUsername(username);
-    	long iban = client.getAccount().getIban();
+    	
+    	long iban = (long)0;
+    	if(client.getRole() != Role.ADMIN)
+    	  iban = client.getAccount().getIban();
     	
     	return iban;
     }

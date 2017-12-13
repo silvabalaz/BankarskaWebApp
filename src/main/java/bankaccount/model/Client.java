@@ -44,8 +44,8 @@ public class Client {
     	
         this.username = username;
         this.password = Util.getPasswordHash(password);
-        
-        this.account = new Account();
+        if (role != Role.ADMIN)
+        	this.account = new Account();
         this.role = role;
     }
 

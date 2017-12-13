@@ -16,14 +16,17 @@ import bankaccount.repository.AccountRepository;
 import bankaccount.repository.ClientRepository;
 import bankaccount.repository.TransactionRepository;
 import bankaccount.service.AccountService;
+import bankaccount.service.TransactionService;
 import bankaccount.web.NewClientController;
 
 @SpringBootApplication
 public class BankAccountApplication {
 	
-	  
     @Autowired
     private AccountService accountService; 
+    
+    @Autowired
+    private TransactionService transactionService; 
 	
 	private static Logger log = LoggerFactory.getLogger(NewClientController.class);
 	 
@@ -42,7 +45,7 @@ public class BankAccountApplication {
 			Client client1 = new Client("Jana", "1234",roleUser);
 			Client client2 = new Client("Ivica", "1234",roleUser);
 			
-			Client admin = new Client("banka", "banka",roleAdmin);
+			Client admin = new Client("banka","banka",roleAdmin);
 	
 			clientRepository.save(client1);
 			clientRepository.save(client2);
@@ -50,16 +53,18 @@ public class BankAccountApplication {
 			
 			Account account1 = client1.getAccount();
 			Account account2 = client2.getAccount();
-			Account accountA = admin.getAccount();
 			
 			account1.setIban((long)111111111);
 			account2.setIban((long)111111110);
-			accountA.setIban((long)100000000);
-			accountA.setBalance((double)0);
+			
+			Transaction t1 = new Transaction(account1,(long)111111110, "zadan", (double)500.0);
+			Transaction t2 = new Transaction(account2,(long)111111111, "zadan", (double)700.0);
 			
 			accountService.save(account1);
 			accountService.save(account2);
-			accountService.save(accountA);
+			
+			transactionService.save(t1);
+			transactionService.save(t2);
 			
 			for (Client c : clientRepository.findAll()) {
 				log.info("svi racuni _______________  " + c.toString() + c.getUsername());

@@ -40,12 +40,18 @@ public class TransactionController {
 		 
 	    	TransactionDto trans = new TransactionDto();
 	    	
-	    	long currentIban = clientService.findIbanByUsername(clientInfo.getUsername());
-	    	trans.setSourceIban(currentIban);
-	    	
-    		model.addAttribute("transactionInfo",trans);
+	    	if(clientService.findIbanByUsername(clientInfo.getUsername()) !=(long)0  ){
+	    		
+	    		long currentIban = clientService.findIbanByUsername(clientInfo.getUsername());
+	    		trans.setSourceIban(currentIban);
+    		    model.addAttribute("transactionInfo",trans);
+    		    return TRANS_VIEW;
+	    	}
+	    	else {
+	    		model.addAttribute("userAdmin","User je admin");
         
-    		return TRANS_VIEW;
+    		    return "redirect:/transaction/all";
+	    	}
 	    }
 	 
 	

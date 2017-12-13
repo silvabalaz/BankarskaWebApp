@@ -51,11 +51,11 @@ public class TransactionDetailsController {
         List<Transaction> transactionsAllByAdminIzvrsen = new ArrayList<Transaction>(); 
         List<Transaction> transactionsAllByAdminOdbijen = new ArrayList<Transaction>(); 
         
-        long adminIban = (long)100000000;
+        long admin = (long)100000000;
         
-        transactionsAllByAdminZadan = transactionService.findAllByStatus(adminIban,"zadan");
-        transactionsAllByAdminIzvrsen = transactionService.findAllByStatus(adminIban,"izvrsen");
-        transactionsAllByAdminOdbijen = transactionService.findAllByStatus(adminIban,"odbijen");
+        transactionsAllByAdminZadan = transactionService.findAllByStatus(admin,"zadan");
+        transactionsAllByAdminIzvrsen = transactionService.findAllByStatus(admin,"izvrsen");
+        transactionsAllByAdminOdbijen = transactionService.findAllByStatus(admin,"odbijen");
         /*Drop-Down list*/
         model.addAttribute("transactionsZadan",  transactionsAllByAdminZadan);
         model.addAttribute("transactionsIzvrsen",transactionsAllByAdminIzvrsen);
