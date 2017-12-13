@@ -34,6 +34,18 @@ public class AccountService {
 		
 		return (List<Account>) repository.findAll();
 	}
-	
+	public boolean save(Account account) {
+			
+		boolean saved = false;
+		  Account changedAccount  = repository.save(account);
+		  
+		  if (changedAccount != null) {
+			  
+			  return saved= true;
+			  
+		  }
+		  
+		  else return saved;
+	}
 
 }

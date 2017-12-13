@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import bankaccount.service.AccountService;
 import bankaccount.service.ClientService;
 import bankaccount.service.TransactionService;
 import bankaccount.web.TransactionController;
+import bankaccount.web.TransactionDto;
 import bankaccount.model.Account;
 import bankaccount.model.Client;
 import bankaccount.model.Transaction;
@@ -35,6 +38,9 @@ public class TransactionDetailsController {
     
     @Autowired
     private ClientService clientService; 
+    
+    @Autowired
+    private AccountService accountService; 
 	
     @RequestMapping("/all")
     public String all(Model model) {
@@ -75,6 +81,66 @@ public class TransactionDetailsController {
         model.addAttribute("status", trans.getStatus());
         model.addAttribute("time", trans.getCurrentTime());
         model.addAttribute("verified", trans.getVerified());
+ 
+        return TRANS_DETAILS;
+    }
+    
+    @RequestMapping(value = "/all/{id}/izvrsi")
+    public String izvrsi(@PathVariable("id") Integer id, Model model) {
+    	
+    	boolean success = false;
+    	
+    	if (transactionService.findById(id) != null) {
+    		
+	    	success = true;
+	    	
+	    	Transaction trans = transactionService.findById(id);
+	    	
+	    	trans.setStatus("izvrsen");
+	    	//uvecava se racun primatelja
+	    	//umanjuje se racun platitelja
+	    	
+	    	Account source = trans.getSourceAccount();
+	    	double newBalace = source.getBalance() - trans.getBalance();
+	    	source.setBalance(newBalace);
+	    	Long destination = trans.getDestinationIban();
+	    	Account	destAccount = clientService.findByIban(destination); 
+	    	double newDest = destAccount.getBalance() + trans.getBalance();
+	    	destAccount.setBalance(newDest);
+	    	
+			accountService.save(source);
+	    	accountService.save(destAccount);
+	    	transactionService.save(trans);
+	    	
+    		return "redirect:/transaction/all";
+    	}
+    	else 
+    		model.addAttribute("isSucess", success);
+    
+ 
+        return TRANS_DETAILS;
+    }
+    
+    @RequestMapping(value = "/all/{id}/odbij")
+    public String odbij(@PathVariable("id") Integer id, Model model) {
+    	
+    	boolean success = false;
+    	
+    	if (transactionService.findById(id) != null) {
+    		
+	    	success = true;
+	    	
+	    	Transaction trans = transactionService.findById(id);
+	    	
+	    	trans.setStatus("odbijen");
+	    	
+	    	transactionService.save(trans);
+	    	
+    		return "redirect:/transaction/all";
+    	}
+    	else 
+    		model.addAttribute("isSucess", success);
+    
  
         return TRANS_DETAILS;
     }

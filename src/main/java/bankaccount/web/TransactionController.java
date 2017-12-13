@@ -61,7 +61,7 @@ public class TransactionController {
     	
     	Transaction newTransaction = new Transaction(findAccount,transactionInfo.getDestinationIban(),"zadan",transactionInfo.getAmount());
     	
-        if(transactionService.saveTransaction(newTransaction) != false){
+        if(transactionService.save(newTransaction) != false){
 
            //service.saveChanges(transactionInfo.getSourceIban(),transactionInfo.getDestinationIban(),transactionInfo.getAmount() );
            

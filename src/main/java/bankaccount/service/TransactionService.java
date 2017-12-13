@@ -20,7 +20,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository repository;
    
-    public boolean saveTransaction(Transaction newTrans) {
+    public boolean save(Transaction newTrans) {
 
         boolean saved = false; 
         
