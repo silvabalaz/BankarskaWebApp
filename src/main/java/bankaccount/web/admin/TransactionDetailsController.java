@@ -97,20 +97,18 @@ public class TransactionDetailsController {
 	    	Transaction trans = transactionService.findById(id);
 	    	
 	    	trans.setStatus("izvrsen");
-	    	//uvecava se racun primatelja
-	    	//umanjuje se racun platitelja
 	    	
-	    	Account source = trans.getSourceAccount();
+	    	Account source = trans.getSourceAccount(); 
 	    	double newBalace = source.getBalance() - trans.getBalance();
 	    	source.setBalance(newBalace);
 	    	Long destination = trans.getDestinationIban();
 	    	Account	destAccount = clientService.findByIban(destination); 
 	    	double newDest = destAccount.getBalance() + trans.getBalance();
 	    	destAccount.setBalance(newDest);
-	    	
-			accountService.save(source);
-	    	accountService.save(destAccount);
-	    	transactionService.save(trans);
+	    	trans.setVerified(true);
+			//accountService.save(source);
+	    	//accountService.save(destAccount);
+	    	transactionService.save(trans); 
 	    	
     		return "redirect:/transaction/all";
     	}
