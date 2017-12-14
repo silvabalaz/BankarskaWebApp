@@ -93,11 +93,19 @@ public class TransactionDetailsController {
 	    	
 	    	Transaction trans = transactionService.findById(id);
 	    	
-	    	trans.setStatus("izvrsen");
-            
-	    	adminService.executeAdmin(trans);
+	    	if(adminService.checkBalance(trans) == false) {
 	    	
-    		return "redirect:/transaction/all";
+	    		trans.setStatus("izvrsen");
+            
+	    		adminService.executeAdmin(trans);
+	    	}	
+	    	else{ 
+	    		
+	    		trans.setStatus("odbijen");	
+	    		transactionService.save(trans);
+	    	}
+	    	
+	    	return "redirect:/transaction/all";
     	}
     	else 
     		model.addAttribute("isSucess", success);

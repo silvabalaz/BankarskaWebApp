@@ -27,8 +27,14 @@
          <td th:text="${verified}"></td>
     </tr>
 </table>
-<a th:text="Izvrsi" th:href="@{|/transaction/all/${id}/izvrsi|}"></a>
-<a th:text="Odbij" th:href="@{|/transaction/all/${id}/odbij|}"></a>
+<table>
+     <tr th:if = "${status} == zadan">
+   	 	<td><a th:text="Izvrsi" th:href="@{|/transaction/all/${id}/izvrsi|}"></a></td>   
+    </tr>
+        <tr th:if = "${status} != odbijen">
+   	 	<td><a th:text="Odbij" th:href="@{|/transaction/all/${id}/odbij|}"></a></td>       
+    </tr>
+</table>
 
 
 <p th:if="${isSuccess== false}">Neuspješna promjena statusa transakcije!</p>

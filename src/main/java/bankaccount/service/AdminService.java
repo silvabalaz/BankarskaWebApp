@@ -42,5 +42,20 @@ public class AdminService {
     	
     	return execute ;
     }
+    
+    public boolean checkBalance(Transaction trans){
+    	
+    	boolean odbijen = false;
+    	
+    	Account source = trans.getSourceAccount(); 
+    	double sourceBalance = source.getBalance();
+    	double transBalance = trans.getBalance();
+        
+    	if(transBalance > sourceBalance)
+    		return odbijen = true;
+    	
+    	return odbijen;
+    
+    }
 
 }

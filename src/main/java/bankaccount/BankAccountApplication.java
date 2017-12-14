@@ -59,12 +59,14 @@ public class BankAccountApplication {
 			
 			Transaction t1 = new Transaction(account1,(long)1111111110, "zadan", (double)500.0);
 			Transaction t2 = new Transaction(account2,(long)1111111111, "zadan", (double)700.0);
+			Transaction t3 = new Transaction(account2,(long)1111111111, "zadan", (double)1000.0);
 			
 			accountService.save(account1);
 			accountService.save(account2);
 			
 			transactionService.save(t1);
 			transactionService.save(t2);
+			transactionService.save(t3);
 			
 			for (Client c : clientRepository.findAll()) {
 				log.info("svi racuni _______________  " + c.toString() + c.getUsername());
