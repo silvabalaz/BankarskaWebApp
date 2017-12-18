@@ -3,16 +3,20 @@
 
 <head th:replace="common/header :: common-header">
     <title>Popis svih transakcija</title>
+   
 </head>
-
+<div class="container"> 
 <h2>Popis svih transakcija:</h2>
-<p>Filtriraj po statusu transakcije:</p>		
+<p>Filtriraj po statusu transakcije:</p>
+	
 <select id="trans">
   <option value="">Odaberi status</option>
   <option value="zadan">ZADAN</option>
   <option value="odbijen">ODBIJEN</option>
   <option value="izvrsen">IZVRŠEN</option>
   </select>
+
+
 <table class ="zadan" border="1">
      <tr id="header">
    	 	<td>Id:</td> 
@@ -61,6 +65,7 @@
 
 <p><a href="/">Povratak na početnu</a></p>
 
+</div>
 
    <script>
 $(document).ready(function () {

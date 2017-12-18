@@ -58,9 +58,20 @@ public class TransactionController {
     @RequestMapping(method = RequestMethod.POST)
     public String transaction(@ModelAttribute("transactionInfo")TransactionDto transactionInfo, Model model, RedirectAttributes redirectAttributes) {
     	
-    	if (clientService.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) 
-    		return "error";
+    	if (clientService.findBalanceByIban(transactionInfo.getSourceIban()) < transactionInfo.getAmount()) {
+    		
+    		
+    		model.addAttribute("isWrongBalance", true);
+    		return TRANS_VIEW;
+    		
+    	}
     	
+    	if(transactionInfo.getDestinationIban() == 0) {
+    		
+    		model.addAttribute("isWrongDestination", true);
+    		return TRANS_VIEW;
+    		
+    	}
     	long currentSourceIban = transactionInfo.getSourceIban();
     	
     	Account findAccount = clientService.findByIban(currentSourceIban);

@@ -4,17 +4,16 @@
     <title>Izdavanje transakcije</title>
 </head>
 <body>
-
+<div class="container"> 
 <h3>Izdavanje transakcije</h3>
 
 <p>Ulogirani ste.Izdavanje transakcije slijedi.</p>
-
-
-
+<div class="alert alert-info">
 <h4>Otvaranje nove transakcije</h4>
-<p th:if="${isWrongData == true}">Krivi broj računa ili prevelik iznos transakcije!</p>
-
-
+<p th:if="${isWrongBalance == true}">Prevelik iznos transakcije!</p>
+<p th:if="${isWrongDestination == true}">Unesi točan broj računa primatelja!</p>
+</div>
+<div class="alert alert-success">
 <form th:action="@{/transactioncreate}" th:object="${transactionInfo}" method="post">
     <table>
 	     <tr> 
@@ -32,12 +31,13 @@
         <tr>
             <td>
            
-                <button type="submit">Izvrši transakciju</button>
+                <button type="submit" class="btn btn-success">Izvrši transakciju</button>
             </td>
         </tr> 
     </table>
 </form>
-
+</div>
+</div>
 
 
 </body>

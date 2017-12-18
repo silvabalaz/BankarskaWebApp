@@ -3,11 +3,15 @@
 
 <head th:replace="common/header :: common-header">
     <title>Popis transakcija</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-
-<h2>Pregledaj transakcije po statusu:</h2>
-
 <body>
+
+<div class="container"> 
+<h2>Pregledaj transakcije po statusu</h2>
+
 
 <h3>Popis transakcija</h3>
 <p>Ovo su vaše transakcije. Možete ih filtrirati po statusu.</p>
@@ -16,16 +20,27 @@
    	 	<td><b>Vaš broj računa:</b></td>
         <td th:text="${transactionInfo}"><b></b></td>
     </tr>
+<p><b>Vaš broj računa</b></p>
+<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Prikaži</button>    
+<div id="demo" class="collapse">
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+<p th:text="${transactionInfo}"></p>
+</div>   
 </table>
-<p>Filtriraj po statusu transakcije:</p>		
+<p>Filtriraj po statusu transakcije:</p>
+<div class="form-group">		
 <select id="trans">
   <option value="">Odaberi status</option>
   <option value="zadan">ZADAN</option>
   <option value="odbijen">ODBIJEN</option>
   <option value="izvrsen">IZVRŠEN</option>
-  </select>
-<table class ="zadan" border="1">
-     <tr id="header">
+</select>
+</div>
+
+<table class ="zadan">
+     <tr class = 'table table-info'>
    	 	<td>Broj računa uplate:</td> 
    	 	<td>Iznos transakcije:</td>
    	 	<td>Status transakcije:</td>   
@@ -37,8 +52,8 @@
     </tr>
 </table>
 
-<table class = "odbijen" border="1">
-    <tr id="header">
+<table class = "odbijen">
+    <tr class = 'table table-danger'>
    	 	<td>Broj računa uplate:</td> 
    	 	<td>Iznos transakcije:</td>
    	 	<td>Status transakcije:</td>   
@@ -50,8 +65,8 @@
     </tr>
 </table>
 
-<table class ="izvrsen" border="1">
-    <tr id="header"> 
+<table class ="izvrsen">
+    <tr class = 'table table-success'> 
    	 	<td>Broj računa uplate:</td> 
    	 	<td>Iznos transakcije:</td>
    	 	<td>Status transakcije:</td> 
@@ -66,7 +81,7 @@
 
 <p><a href="/">Povratak na početnu</a></p>
 <p><a href="/login">Napravi transakciju</a></p>
-
+</div>
    <script>
 $(document).ready(function () {
     $("#trans").change(function () {

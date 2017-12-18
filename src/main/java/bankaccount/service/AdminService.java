@@ -23,7 +23,7 @@ public class AdminService {
     @Autowired
     private AccountService accountService; 
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+ 
     public boolean executeAdmin(Transaction trans){
     	
     	boolean execute = false;
@@ -42,7 +42,7 @@ public class AdminService {
     	return execute ;
     }
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     public boolean checkBalance(Transaction trans){
     	
     	boolean odbijen = false;

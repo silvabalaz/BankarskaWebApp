@@ -4,11 +4,13 @@
     <title>Autentifikacija</title>
 </head>
 <body>
-
+<div class="container"> 
+<div class="alert alert-info">
 <h3>Autentifikacija</h3>
+
 <p th:if="${isWrongPassword == true}">Krivo korisničko ime ili lozinka!</p>
-
-
+</div>
+<div class="alert alert-success">
 <form th:action="@{/login}" th:object="${clientInfo}" method="post">
     <table>
         <tr>
@@ -21,11 +23,13 @@
         </tr>
         <tr>
             <td>
-                <button type="submit">Ulogiraj se</button>
+                <button type="submit" class="btn btn-success">Ulogiraj se</button>
             </td>
         </tr>
     </table>
 </form>
-
+<p><a href="/">Povratak na početnu</a></p>
+</div>
+</div>
 </body>
 </html>

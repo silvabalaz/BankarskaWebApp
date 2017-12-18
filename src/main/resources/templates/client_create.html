@@ -4,11 +4,14 @@
     <title>Bank account</title>
 </head>
 <body>
-
+<div class="container"> 
+<div class="alert alert-info">
 <h3>Otvaranje novog računa</h3>
+
+
 <p th:if="${vecPostoji== true}">Račun s tim imenom već postoji!</p>
-
-
+</div>
+<div class="alert alert-success">
 <form th:action="@{/clientcreate}" th:object="${clientInfo}" method="post">
     <table>
         <tr>
@@ -21,17 +24,17 @@
         </tr>
         <tr>
             <td>
-                <button type="submit">Otvori račun</button>
+                <button type="submit" class="btn btn-success">Otvori račun</button>
             </td>
         </tr>
     </table>
 </form>
 
-<h1>Result</h1>
-<p th:text="'Welcome, ' + ${noviKlijentIme}" />
+<h4 th:text="'Uspješno ste otvorili račun, ' + ${noviKlijentIme}"></h4>
+</div>
 
 <p><a href="/">Povratak na početnu</a></p>
 <p><a href="/login">Ulogiraj se</a></p>
-
+</div>> 
 </body>
 </html>
