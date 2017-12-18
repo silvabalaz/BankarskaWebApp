@@ -2,14 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head th:replace="common/header :: common-header">
     <title>Detalji transakcije</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container"> 
 
 <h3>Detalji transakcije</h3>
 
-<table border="1">
-     <tr id="header">
+<div class="jumbotron">
+<table>
+     <tr id="header" class='table table-warning'>
    	 	<td>Id transakcije:</td> 
    	 	<td>IBAN uplatitelja transakcije:</td>
    	 	<td>IBAN primatelja transakcije:</td>
@@ -43,7 +47,7 @@
 
 
 <p><a href="/admin/all">Vrati se na popis svih transakcija</a></p>
-
+</div>
 </div>
 </body>
 </html>

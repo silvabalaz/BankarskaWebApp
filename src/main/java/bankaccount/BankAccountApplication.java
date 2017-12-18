@@ -37,7 +37,6 @@ public class BankAccountApplication {
 	@Bean
 	public CommandLineRunner demo(ClientRepository clientRepository) {
 		return (args) -> { 
-			//save a couple of customers
 			
 			Role roleUser = Role.ROLE_USER;
 			Role roleAdmin = Role.ROLE_ADMIN;

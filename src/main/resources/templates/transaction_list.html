@@ -11,25 +11,12 @@
 
 <div class="container"> 
 <h2>Pregledaj transakcije po statusu</h2>
+<div class="jumbotron">
 
-
-<h3>Popis transakcija</h3>
 <p>Ovo su vaše transakcije. Možete ih filtrirati po statusu.</p>
-<table border="1">
-     <tr id="header">
-   	 	<td><b>Vaš broj računa:</b></td>
-        <td th:text="${transactionInfo}"><b></b></td>
-    </tr>
-<p><b>Vaš broj računa</b></p>
-<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Prikaži</button>    
-<div id="demo" class="collapse">
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+<b>Vaš broj računa</b>
 <p th:text="${transactionInfo}"></p>
-</div>   
-</table>
-<p>Filtriraj po statusu transakcije:</p>
+
 <div class="form-group">		
 <select id="trans">
   <option value="">Odaberi status</option>
@@ -81,6 +68,7 @@
 
 <p><a href="/">Povratak na početnu</a></p>
 <p><a href="/login">Napravi transakciju</a></p>
+</div>
 </div>
    <script>
 $(document).ready(function () {
