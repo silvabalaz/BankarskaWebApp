@@ -47,16 +47,27 @@ Korištenje elemenata bootstrapa kroz ostale templeate ostvarujem tako da includ
 Get metoda *clientCreate* kreira objekt *ClientDto* za prijenos (DTO- *Data transfer object*) podataka novostvorenog klijenta (username i password) i vraća *view* kako bi korisnik unio svoje podatke u formu i otvorio račun pritiskom gumba. 
 Post metoda *create* podatke iz forme na pritisak gumba prosljeđuje podatke iz *ClientDto* objekta u kontruktor Client objekta kako bi se generirao novi korisnik i njegov račun (ako već korisnik ne postoji u bazi, a to provjerim metodom servisa ClientService, *findByUsername* koja vrati različito od *null* ako postoji osoba s tim username-om u bazi). Spremanje korisnika u bazu radim metodom *save* servisa *ClientService*. U bazi se nalazi generirana tablica *Client* koja ima vezu jedan klijent sa jednim računom (svojstvo account u Client objektu sa id-jem u Account objektu).
 
-**LoginController**
+**LoginController** / *Autentifikacija*
 
 povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* view-u *client_login*. 
 	   
-    @RequestMapping(method = RequestMethod.POST)
+ @RequestMapping(method = RequestMethod.POST)
     public String login(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model,RedirectAttributes redirectAttributes) {
+
+
+        logger.info("Klijent ime i lozinka:" + clientInfo.getUsername() + "' password: '" + clientInfo.getPassword() + " ");
+        logger.info("hasshed password: " + Util.getPasswordHash(clientInfo.getPassword()));
+        logger.info("service.isValid::  " + service.isValid(clientInfo.getUsername(), clientInfo.getPassword()));
 
         if(service.isValid(clientInfo.getUsername(), clientInfo.getPassword())) {
 
             redirectAttributes.addFlashAttribute("clientInfo", clientInfo);
+            
+            if(clientInfo.getRole() == Role.ROLE_ADMIN){
+            	
+            	return "redirect:/admin/all";
+            	
+            }
             
             return "redirect:/transactioncreate";
         }
@@ -68,13 +79,15 @@ povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* v
     }
 
 
-Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi klijent, metodom *findByUsername*. Ukoliko klijent već postoji, odrađujem login na način da njegove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
+Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi klijent, metodom *findByUsername*. Ukoliko klijent već postoji, odrađujem login na način da njegove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. 
+AKo je klijent zapravo *admin*, odnosno klijent sa username/password banka/banka, radim redirect na rutu */admin/all* za ispis svih postojećih transakcija u sustavu.
+Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
 
 **TransactionController**
 
 povezan rutom */transactioncreate*. 
 Podaci koji stižu objektom redirectAttributes na ovu rutu su podaci o logiranom klijentu (kao parametri metode *Form* , objekt *clientInfo*). Pomoću imena klijenta pretražujem bazu podataka da bi dobila odgovarajući IBAN računa. To je moguće jer je klijentovo ime jedinstveno na nivou sustava. Spremam IBAN računa za prikaz u viewu.
-Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbije,izvrsen), balance, time, verified.
+Kreiram novi objekt *TransactionDto* koji će služiti u prijenosu podataka iz forme transakcijskog naloga do kreiranja njegovog objekta čije informacije mogu pospremiti u bazu. Te informacije su *properties* objekta *Transaction*: id, sourceAccount, destinationIban, status (zadan,odbijen,izvrsen), balance, time, verified.
 *sourceAccount* tipa Account je svojstvo po kojem prepoznajemo vlasnika klijenta i veza sa tablicom Account.Ta veza je veza tipa: mnogo transakcija sa jednim računom korisnika (Account id-jem).
 
 Metoda *transaction* stvara novu transakciju sa statusom *zadan* i sprema ju u bazu u tablicu *Transaction*, ako je ispunjen uvjet da je iznos transakcije manji od kolicine novca na trenutnom racunu ispitanog u if uvjetu:
@@ -135,6 +148,20 @@ U template-u *transaction_list* uz pomoć javascript funkcije i html elemenata t
 			 <td th:text="${t.status}"></td>
 		    </tr>
 		</table>
+		
+**TransactionDetailsController**
+povezan rutom */admin* , uz pomoć metode *all* u ruti */admin/all* dohvaća iz tablice *Transaction* sve naloge metodom *transactionService-a* *findAllByStatus()* koja šalje parametre: broj računa admina (fiksno zadan u bazi od "clienta" sa user/password  banka/banka , broj tipa long, 1000000000) sve transakcije u bazi i ispisuje ih u template-u *admin_all*.
+
+        
+        long admin = (long)1000000000;
+        
+        transactionsAllByAdminZadan = transactionService.findAllByStatus(admin,"zadan");
+        transactionsAllByAdminIzvrsen = transactionService.findAllByStatus(admin,"izvrsen");
+        transactionsAllByAdminOdbijen = transactionService.findAllByStatus(admin,"odbijen");
+
+Uz pomoć metode details, pvezan je s rutom */admin/all/{id}*. Metoda details prima kao parametar *id* pojedine transakcije kada je admin pritisnuo link za dohvaćanja detalje neke transakcije. Detalji su prikazani u template-u *admin_details*.
+
+Za izvršavanje i odbijanje transakcija služe metode *izvrsi* i *odbij*. U njima su transakvije dohvaćene iz baza, promijenjeni im statusi i ponovno su spremljene u bazu.
 
 
 **pom.xml**
