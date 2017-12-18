@@ -30,7 +30,7 @@
     </table>
 </form>
 
-<h4 th:text="'Uspješno ste otvorili račun, ' + ${noviKlijentIme}"></h4>
+<p th:if="${noviKlijentIme != null}">Uspješno ste otvorili račun! </p>
 </div>
 
 <p><a href="/">Povratak na početnu</a></p>
