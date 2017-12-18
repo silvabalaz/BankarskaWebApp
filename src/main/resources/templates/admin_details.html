@@ -29,10 +29,10 @@
 </table>
 <table>
      <tr th:if = "${status} == zadan">
-   	 	<td><a th:text="Izvrsi" th:href="@{|/transaction/all/${id}/izvrsi|}"></a></td>   
+   	 	<td><a th:text="Izvrsi" th:href="@{|/admin/all/${id}/izvrsi|}"></a></td>   
     </tr>
         <tr th:if = "${status} != odbijen">
-   	 	<td><a th:text="Odbij" th:href="@{|/transaction/all/${id}/odbij|}"></a></td>       
+   	 	<td><a th:text="Odbij" th:href="@{|/admin/all/${id}/odbij|}"></a></td>       
     </tr>
 </table>
 
@@ -41,7 +41,7 @@
 <p th:if="${isSuccess== true}">Status transakcije je uspješno promijenjen.</p>
 
 
-<p><a href="/transaction/all">Vrati se na popis svih transakcija</a></p>
+<p><a href="/admin/all">Vrati se na popis svih transakcija</a></p>
 
 </body>
 </html>

@@ -7,7 +7,7 @@ public class ClientDto {
 
     private String username;
     private String password;
-    private Role role = Role.USER;
+    private Role role = Role.ROLE_USER;
 
     public ClientDto(){
 

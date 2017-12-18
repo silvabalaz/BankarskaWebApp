@@ -1,7 +1,8 @@
 package bankaccount.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class AdminService {
     @Autowired
     private AccountService accountService; 
     
-    
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean executeAdmin(Transaction trans){
     	
     	boolean execute = false;
@@ -43,6 +44,7 @@ public class AdminService {
     	return execute ;
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean checkBalance(Transaction trans){
     	
     	boolean odbijen = false;

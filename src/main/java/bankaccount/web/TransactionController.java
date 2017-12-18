@@ -50,7 +50,7 @@ public class TransactionController {
 	    	else {
 	    		model.addAttribute("userAdmin","User je admin");
         
-    		    return "redirect:/transaction/all";
+    		    return "redirect:/admin/all";
 	    	}
 	    }
 	 

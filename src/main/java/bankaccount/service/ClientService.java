@@ -74,7 +74,7 @@ public class ClientService {
     	Client client = repository.findByUsername(username);
     	
     	long iban = (long)0;
-    	if(client.getRole() != Role.ADMIN)
+    	if(client.getRole() != Role.ROLE_ADMIN)
     	  iban = client.getAccount().getIban();
     	
     	return iban;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import bankaccount.model.security.Role;
 import bankaccount.service.ClientService;
 import bankaccount.service.Util;
 
@@ -46,6 +47,12 @@ public class LoginController {
 
             redirectAttributes.addFlashAttribute("clientInfo", clientInfo);
             
+            if(clientInfo.getRole() == Role.ROLE_ADMIN){
+            	
+            	return "redirect:/admin/all";
+            	
+            }
+            
             return "redirect:/transactioncreate";
         }
 
@@ -53,6 +60,12 @@ public class LoginController {
 
 
         return loginForm(model);
+    }
+    
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logout(Model model)
+    {
+        return "index";
     }
     
 	   

@@ -6,7 +6,6 @@
 </head>
 
 <h2>Popis svih transakcija:</h2>
-
 <p>Filtriraj po statusu transakcije:</p>		
 <select id="trans">
   <option value="">Odaberi status</option>
@@ -25,7 +24,7 @@
          <td th:text="${t.id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
-         <td><a th:text="Detalji" th:href="@{|/transaction/all/${t.id}|}"></a></td>
+         <td><a th:text="Detalji" th:href="@{|/admin/all/${t.id}|}"></a></td>
     </tr>
 </table>
 
@@ -40,7 +39,7 @@
          <td th:text="${t.Id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
-          <td><a th:text="Detalji" th:href="@{|/transaction/all/${t.id}|}"></a></td>
+          <td><a th:text="Detalji" th:href="@{|/admin/all/${t.id}|}"></a></td>
     </tr>
 </table>
 
@@ -55,7 +54,7 @@
          <td th:text="${t.id}"></td>
          <td th:text="${t.balance}"></td>
          <td th:text="${t.status}"></td>
-         <td><a th:text="Detalji" th:href="@{|/transaction/all/${t.id}|}"></a></td>
+         <td><a th:text="Detalji" th:href="@{|/admin/all/${t.id}|}"></a></td>
     </tr>
 </table>
 

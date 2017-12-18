@@ -39,8 +39,8 @@ public class BankAccountApplication {
 		return (args) -> { 
 			//save a couple of customers
 			
-			Role roleUser = Role.USER;
-			Role roleAdmin = Role.ADMIN;
+			Role roleUser = Role.ROLE_USER;
+			Role roleAdmin = Role.ROLE_ADMIN;
 			
 			Client client1 = new Client("Jana", "1234",roleUser);
 			Client client2 = new Client("Ivica", "1234",roleUser);

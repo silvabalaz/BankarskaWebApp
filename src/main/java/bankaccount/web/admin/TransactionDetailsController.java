@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,12 +26,11 @@ import bankaccount.model.Client;
 import bankaccount.model.Transaction;
 
 @Controller
-@RequestMapping("/transaction")
-@PreAuthorize("hasRole('ADMIN')")
+@RequestMapping("/admin")
 public class TransactionDetailsController {
 	
-    private static final String TRANS_DETAILS = "transaction_details";
-    private static final String TRANS_ALL = "transaction_all";
+    private static final String TRANS_DETAILS = "admin_details";
+    private static final String TRANS_ALL = "admin_all";
  
     private static Logger logger = LoggerFactory.getLogger(TransactionDetailsController.class);
     
@@ -105,7 +105,7 @@ public class TransactionDetailsController {
 	    		transactionService.save(trans);
 	    	}
 	    	
-	    	return "redirect:/transaction/all";
+	    	return "redirect:/admin/all";
     	}
     	else 
     		model.addAttribute("isSucess", success);
@@ -129,7 +129,7 @@ public class TransactionDetailsController {
 	    	
 	    	transactionService.save(trans);
 	    	
-    		return "redirect:/transaction/all";
+    		return "redirect:/admin/all";
     	}
     	else 
     		model.addAttribute("isSucess", success);
