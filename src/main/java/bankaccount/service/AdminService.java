@@ -23,7 +23,7 @@ public class AdminService {
     @Autowired
     private AccountService accountService; 
     
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public boolean executeAdmin(Transaction trans){
     	
     	boolean execute = false;
@@ -37,14 +37,12 @@ public class AdminService {
     	double newDest = destAccount.getBalance() + trans.getBalance();
     	destAccount.setBalance(newDest);
     	trans.setVerified(true);
-		//accountService.save(source);
-    	//accountService.save(destAccount);
     	transactionService.save(trans); 
     	
     	return execute ;
     }
     
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public boolean checkBalance(Transaction trans){
     	
     	boolean odbijen = false;

@@ -23,18 +23,30 @@ import bankaccount.model.security.Role;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication() 
+				.withUser("Silva").password("1234").roles("USER") 
+				.and() 
+				.withUser("banka").password("banka").roles("ADMIN");
+			
+	}
+	
+	
 	
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
         http
         	.authorizeRequests()
-            .antMatchers("/").permitAll();
+            .antMatchers("/").permitAll()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/clientcreate").permitAll();
         http.csrf().disable();
         http.headers().frameOptions().disable();
     }
     
-
+/*
 	@Autowired
 	void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication() //
@@ -44,7 +56,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
     
     
-
+    
+    @Bean
+    public UserDetailsService userDetailsService(){
+    	
+    	InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    	manager.createUser(User.withUsername("banka").password("banka").roles("ADMIN").build());
+    	manager.createUser(User.withUsername("Silva").password("1234").roles("ADMIN").build());
+    	
+    	return manager;
+    	
+    }*/
 }
 
 

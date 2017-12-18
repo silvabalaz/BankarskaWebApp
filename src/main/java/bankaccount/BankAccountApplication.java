@@ -44,11 +44,14 @@ public class BankAccountApplication {
 			
 			Client client1 = new Client("Jana", "1234",roleUser);
 			Client client2 = new Client("Ivica", "1234",roleUser);
+			Client client3 = new Client("Silva", "1234",roleUser);
 			
 			Client admin = new Client("banka","banka",roleAdmin);
 	
 			clientRepository.save(client1);
 			clientRepository.save(client2);
+			clientRepository.save(client3);
+			
 			clientRepository.save(admin);
 			
 			Account account1 = client1.getAccount();
