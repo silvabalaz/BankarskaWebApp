@@ -47,17 +47,15 @@ Korištenje elemenata bootstrapa kroz ostale templeate ostvarujem tako da includ
 Get metoda *clientCreate* kreira objekt *ClientDto* za prijenos (DTO- *Data transfer object*) podataka novostvorenog klijenta (username i password) i vraća *view* kako bi korisnik unio svoje podatke u formu i otvorio račun pritiskom gumba. 
 Post metoda *create* podatke iz forme na pritisak gumba prosljeđuje podatke iz *ClientDto* objekta u kontruktor Client objekta kako bi se generirao novi korisnik i njegov račun (ako već korisnik ne postoji u bazi, a to provjerim metodom servisa ClientService, *findByUsername* koja vrati različito od *null* ako postoji osoba s tim username-om u bazi). Spremanje korisnika u bazu radim metodom *save* servisa *ClientService*. U bazi se nalazi generirana tablica *Client* koja ima vezu jedan klijent sa jednim računom (svojstvo account u Client objektu sa id-jem u Account objektu).
 
-**LoginController** / *Autentifikacija*
+**LoginController** 
+
+1. *Autentifikacija*
 
 povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* view-u *client_login*. 
 	   
  @RequestMapping(method = RequestMethod.POST)
     public String login(@ModelAttribute("clientInfo")ClientDto clientInfo, Model model,RedirectAttributes redirectAttributes) {
 
-
-        logger.info("Klijent ime i lozinka:" + clientInfo.getUsername() + "' password: '" + clientInfo.getPassword() + " ");
-        logger.info("hasshed password: " + Util.getPasswordHash(clientInfo.getPassword()));
-        logger.info("service.isValid::  " + service.isValid(clientInfo.getUsername(), clientInfo.getPassword()));
 
         if(service.isValid(clientInfo.getUsername(), clientInfo.getPassword())) {
 
@@ -82,6 +80,25 @@ povezan je rutom */login* . Metoda *loginForm* prosljeđuje objekt *ClientDto* v
 Formom se šalju podaci post metodom *login* , te korištenjem metode *isValid* servisa ClientService ispitujem: stvorene podatke klijenta, je li forma bila popunjena i postoji li u bazi klijent, metodom *findByUsername*. Ukoliko klijent već postoji, odrađujem login na način da njegove podatke šaljem objektom *redirectAttributes* na rutu */transactioncreate*. 
 AKo je klijent zapravo *admin*, odnosno klijent sa username/password banka/banka, radim redirect na rutu */admin/all* za ispis svih postojećih transakcija u sustavu.
 Inače popunjavam objekt *model* sa informacijom da je lozinka kriva, te tu informaciju ispisujem u viewu *client_create*.
+
+
+2. *Autorizacija*
+
+Za veću sigurnost *url-a , metoda i podataka * možemo mijenjati metodu *configure* u klasi *WebSecurityConfigurerAdapter*
+  
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+    	
+        http
+            .authorizeRequests()
+            .antMatchers("/").permitAll()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/clientcreate").permitAll();
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
+    }
+    
+te napraviti promjene u kodu ispred metoda sa notacijom *@PreAuthorize* ili *@Secure* ako želimo odrediti koji korisnik će ih moći koristiti: USER ili ADMIN.
 
 **TransactionController**
 
