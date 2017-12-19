@@ -209,4 +209,6 @@ Dodala sam sve dependencies koji su bili potrebni redom kako sam radila: spring-
 ![ekran3](https://user-images.githubusercontent.com/6881169/34145394-1f0ee2f4-e496-11e7-85e5-e8ad9a4c8f6c.png)
 ![ekran4](https://user-images.githubusercontent.com/6881169/34145396-1f2bd1de-e496-11e7-9cac-19b837aee241.png)
 ![ekran5](https://user-images.githubusercontent.com/6881169/34145397-1f48baa6-e496-11e7-8f71-039d75cd36e6.png)
+![ekran6](https://user-images.githubusercontent.com/6881169/34145525-bc92a40c-e496-11e7-994c-a1a28717d9f1.png)
+
 
