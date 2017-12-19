@@ -202,3 +202,11 @@ Dodala sam sve dependencies koji su bili potrebni redom kako sam radila: spring-
 			<version>3.3.7</version>
 		</dependency>
 
+**Screenshots**
+
+![ekran1](https://user-images.githubusercontent.com/6881169/34145392-1ed17d10-e496-11e7-8c75-e44d055fa2cb.png)
+![ekran2](https://user-images.githubusercontent.com/6881169/34145393-1ef0ed3a-e496-11e7-930e-a04e8b2f8148.png)
+![ekran3](https://user-images.githubusercontent.com/6881169/34145394-1f0ee2f4-e496-11e7-85e5-e8ad9a4c8f6c.png)
+![ekran4](https://user-images.githubusercontent.com/6881169/34145396-1f2bd1de-e496-11e7-9cac-19b837aee241.png)
+![ekran5](https://user-images.githubusercontent.com/6881169/34145397-1f48baa6-e496-11e7-8f71-039d75cd36e6.png)
+![ekran6](https://user-images.githubusercontent.com/6881169/34145400-1f7f56ba-e496-11e7-8c85-47d20c734163.png)
